@@ -14,7 +14,7 @@
  *   ResizablePanelGroup,
  *   ResizablePanel,
  *   ResizableHandle,
- * } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
  *
  * // Horizontal resizable panels
  * <ResizablePanelGroup direction="horizontal" className="min-h-[200px] rounded-lg border">

@@ -7,7 +7,7 @@
  *
  * @example
  * ```tsx
- * import { SimpleLayout } from '@adsmurai/dsr-react';
+ * import { SimpleLayout } from 'adsmurai-dsr-react';
  *
  * <SimpleLayout tabs={tabSections} user={{ firstName: 'Ana', lastName: 'García', email: 'ana@example.com' }}>
  *   <div>Page content</div>

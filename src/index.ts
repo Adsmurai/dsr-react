@@ -1,12 +1,12 @@
 /**
- * @adsmurai/dsr-react
+ * adsmurai-dsr-react
  *
  * Adsmurai Design System React - UI component library
  * wrapping DSR components with standardized React APIs.
  *
  * @example
  * ```tsx
- * import { Button, Card, Input, useIsMobile } from '@adsmurai/dsr-react';
+ * import { Button, Card, Input, useIsMobile } from 'adsmurai-dsr-react';
  * ```
  */
 

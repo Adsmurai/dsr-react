@@ -25,8 +25,8 @@
  *
  * @example
  * ```tsx
- * import { Label } from '@adsmurai/dsr-react';
- * import { Input } from '@adsmurai/dsr-react';
+ * import { Label } from 'adsmurai-dsr-react';
+ * import { Input } from 'adsmurai-dsr-react';
  *
  * // Basic label with input
  * <div className="grid gap-2">

@@ -16,8 +16,8 @@
  *
  * @example
  * ```tsx
- * import { Icon } from '@adsmurai/dsr-react';
- * import { IconsEnum } from '@adsmurai/dsr-react/enums';
+ * import { Icon } from 'adsmurai-dsr-react';
+ * import { IconsEnum } from 'adsmurai-dsr-react/enums';
  *
  * // Basic
  * <Icon name="Add" />
@@ -187,7 +187,7 @@ const Icon: React.FC<IconProps> = ({
     console.warn(
       `[Icon] Unknown icon name "${name}". ` +
       "If this is a valid Material Icons name, it will render. " +
-      "For autocomplete support, import IconsEnum from '@adsmurai/dsr-react/enums'."
+      "For autocomplete support, import IconsEnum from 'adsmurai-dsr-react/enums'."
     );
   }
 

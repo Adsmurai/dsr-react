@@ -27,8 +27,8 @@
  *
  * @example
  * ```tsx
- * import { Toaster } from '@adsmurai/dsr-react';
- * import { useToast, toast } from '@adsmurai/dsr-react';
+ * import { Toaster } from 'adsmurai-dsr-react';
+ * import { useToast, toast } from 'adsmurai-dsr-react';
  *
  * // Add Toaster to your app root (layout.tsx or App.tsx)
  * export default function RootLayout({ children }) {

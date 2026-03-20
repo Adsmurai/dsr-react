@@ -21,7 +21,7 @@
  *
  * @example Basic usage
  * ```tsx
- * import { Drawer } from '@adsmurai/dsr-react';
+ * import { Drawer } from 'adsmurai-dsr-react';
  * import { useState } from 'react';
  *
  * function MyComponent() {

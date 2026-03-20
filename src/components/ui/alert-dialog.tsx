@@ -28,8 +28,8 @@
  *   AlertDialogFooter,
  *   AlertDialogCancel,
  *   AlertDialogAction,
- * } from '@adsmurai/dsr-react';
- * import { Button } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
+ * import { Button } from 'adsmurai-dsr-react';
  *
  * <AlertDialog>
  *   <AlertDialogTrigger asChild>

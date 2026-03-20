@@ -17,7 +17,7 @@
  *   NavigationMenuContent,
  *   NavigationMenuLink,
  *   navigationMenuTriggerStyle,
- * } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
  *
  * // Basic navigation menu
  * <NavigationMenu>

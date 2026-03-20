@@ -8,7 +8,7 @@
  *
  * @example
  * ```tsx
- * import { SimpleLayout, DashboardLayout, MultiSectionLayout } from '@adsmurai/dsr-react';
+ * import { SimpleLayout, DashboardLayout, MultiSectionLayout } from 'adsmurai-dsr-react';
  * ```
  */
 

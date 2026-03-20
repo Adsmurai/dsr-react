@@ -14,7 +14,7 @@
  *   InputOTPGroup,
  *   InputOTPSlot,
  *   InputOTPSeparator,
- * } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
  *
  * // Basic 6-digit OTP input
  * <InputOTP maxLength={6}>

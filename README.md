@@ -1,22 +1,17 @@
-# @adsmurai/dsr-react
+# adsmurai-dsr-react
 
 Adsmurai Design System React - UI component library wrapping DSR components with standardized React APIs.
-
-> **Internal Use Only** - This package is intended for Adsmurai projects.
 
 ## Installation
 
 ```bash
-npm install @adsmurai/dsr-react
+npm install adsmurai-dsr-react
 ```
 
 ## Peer Dependencies
 
-This package requires the following peer dependencies:
-
 | Package | Version | Required |
 |---------|---------|----------|
-| `@adsmurai/design-system-react` | `>=9.0.0` | Yes |
 | `react` | `>=18.0.0` | Yes |
 | `react-dom` | `>=18.0.0` | Yes |
 | `tailwindcss` | `>=3.0.0` | Yes |
@@ -26,7 +21,7 @@ This package requires the following peer dependencies:
 ## Usage
 
 ```tsx
-import { Button, Card, Input, useIsMobile } from '@adsmurai/dsr-react';
+import { Button, Card, Input, useIsMobile } from 'adsmurai-dsr-react';
 
 function App() {
   const isMobile = useIsMobile();
@@ -42,4 +37,4 @@ function App() {
 
 ## License
 
-UNLICENSED - Proprietary
+MIT

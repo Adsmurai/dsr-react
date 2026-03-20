@@ -13,7 +13,7 @@
  *   HoverCard,
  *   HoverCardTrigger,
  *   HoverCardContent,
- * } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
  *
  * // Basic hover card for user profile preview
  * <HoverCard>

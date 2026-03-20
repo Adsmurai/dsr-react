@@ -1,11 +1,11 @@
 # Setup Guide
 
-Quick setup guide for @adsmurai/dsr-react in your React application.
+Quick setup guide for adsmurai-dsr-react in your React application.
 
 ## Installation
 
 ```bash
-npm install @adsmurai/dsr-react @adsmurai/design-system-react
+npm install adsmurai-dsr-react
 ```
 
 ## Required Peer Dependencies
@@ -23,16 +23,7 @@ npm install react-hook-form zod @hookform/resolvers
 
 ## App Setup
 
-### 1. Import CSS (Required)
-
-Add DSR styles to your main entry file:
-
-```tsx
-// main.tsx or App.tsx
-import '@adsmurai/design-system-react/dist/styles.css';
-```
-
-### 2. Tailwind Configuration
+### 1. Tailwind Configuration
 
 Add DSR to your `tailwind.config.js`:
 
@@ -43,7 +34,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
     // Include DSR components
-    "./node_modules/@adsmurai/dsr-react/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/adsmurai-dsr-react/**/*.{js,ts,jsx,tsx}",
   ],
   // ... rest of config
 }
@@ -67,7 +58,7 @@ Some components require context providers. Here's what you need:
 
 ```tsx
 // App.tsx
-import { TooltipProvider } from '@adsmurai/dsr-react';
+import { TooltipProvider } from 'adsmurai-dsr-react';
 
 function App() {
   return (
@@ -91,7 +82,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton
-} from '@adsmurai/dsr-react';
+} from 'adsmurai-dsr-react';
 
 function Layout({ children }) {
   return (
@@ -126,7 +117,7 @@ import {
   FormMessage,
   Input,
   Button
-} from '@adsmurai/dsr-react';
+} from 'adsmurai-dsr-react';
 
 const schema = z.object({
   email: z.string().email(),
@@ -167,28 +158,28 @@ function LoginForm() {
 
 ```tsx
 // Import components from root
-import { Button, Card, Input, Typography } from '@adsmurai/dsr-react';
+import { Button, Card, Input, Typography } from 'adsmurai-dsr-react';
 ```
 
 ### Enums
 
 ```tsx
 // Import enums from /enums subpath
-import { IconsEnum, ButtonVariantEnum } from '@adsmurai/dsr-react/enums';
+import { IconsEnum, ButtonVariantEnum } from 'adsmurai-dsr-react/enums';
 ```
 
 ### Types
 
 ```tsx
 // Import types from /types subpath
-import type { ButtonProps, InputProps, CardProps } from '@adsmurai/dsr-react/types';
+import type { ButtonProps, InputProps, CardProps } from 'adsmurai-dsr-react/types';
 ```
 
 ### Variant Constants
 
 ```tsx
 // Use exported constants for valid prop values
-import { BUTTON_VARIANTS, BUTTON_SIZES, BADGE_VARIANTS } from '@adsmurai/dsr-react';
+import { BUTTON_VARIANTS, BUTTON_SIZES, BADGE_VARIANTS } from 'adsmurai-dsr-react';
 
 // These help with autocomplete and validation
 <Button variant={BUTTON_VARIANTS.default}>Primary</Button>
@@ -201,21 +192,21 @@ import { BUTTON_VARIANTS, BUTTON_SIZES, BADGE_VARIANTS } from '@adsmurai/dsr-rea
 ### Button with Icon
 
 ```tsx
-import { Button } from '@adsmurai/dsr-react';
+import { Button } from 'adsmurai-dsr-react';
 
 // Using icon name (recommended for Lovable)
 <Button startIcon="Add">Add Item</Button>
 <Button endIcon="OpenInNew">Open Link</Button>
 
 // Using icon component (advanced)
-import { Icon } from '@adsmurai/dsr-react';
+import { Icon } from 'adsmurai-dsr-react';
 <Button leadingIcon={<Icon name="Add" />}>Add Item</Button>
 ```
 
 ### Alert Variants
 
 ```tsx
-import { Alert, ALERT_VARIANTS } from '@adsmurai/dsr-react';
+import { Alert, ALERT_VARIANTS } from 'adsmurai-dsr-react';
 
 <Alert variant="success">Operation completed</Alert>
 <Alert variant="destructive">Error occurred</Alert>
@@ -226,7 +217,7 @@ import { Alert, ALERT_VARIANTS } from '@adsmurai/dsr-react';
 ### Badge Variants
 
 ```tsx
-import { Badge, BADGE_VARIANTS } from '@adsmurai/dsr-react';
+import { Badge, BADGE_VARIANTS } from 'adsmurai-dsr-react';
 
 <Badge variant="success">Active</Badge>
 <Badge variant="destructive">Error</Badge>
@@ -236,20 +227,12 @@ import { Badge, BADGE_VARIANTS } from '@adsmurai/dsr-react';
 
 ## Troubleshooting
 
-### "Cannot find module '@adsmurai/dsr-react/enums'"
+### "Cannot find module 'adsmurai-dsr-react/enums'"
 
 Make sure you're using the correct version (>= 0.1.2). Update with:
 
 ```bash
-npm update @adsmurai/dsr-react
-```
-
-### Components not styled correctly
-
-Ensure you've imported the DSR CSS:
-
-```tsx
-import '@adsmurai/design-system-react/dist/styles.css';
+npm update adsmurai-dsr-react
 ```
 
 ### TypeScript errors with props
@@ -257,7 +240,7 @@ import '@adsmurai/design-system-react/dist/styles.css';
 Import types from the `/types` subpath:
 
 ```tsx
-import type { ButtonProps } from '@adsmurai/dsr-react/types';
+import type { ButtonProps } from 'adsmurai-dsr-react/types';
 ```
 
 ### Tooltip not showing

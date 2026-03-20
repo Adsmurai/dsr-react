@@ -1,5 +1,5 @@
 /**
- * @fileoverview Centralized type exports for @adsmurai/dsr-react
+ * @fileoverview Centralized type exports for adsmurai-dsr-react
  *
  * @description
  * All component prop types exported from a single location.
@@ -7,7 +7,7 @@
  *
  * @example
  * ```tsx
- * import type { ButtonProps, InputProps, SelectProps } from '@adsmurai/dsr-react/types';
+ * import type { ButtonProps, InputProps, SelectProps } from 'adsmurai-dsr-react/types';
  *
  * const MyButton: React.FC<ButtonProps> = (props) => {
  *   return <Button {...props} />;

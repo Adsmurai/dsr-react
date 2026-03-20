@@ -9,7 +9,7 @@
  *
  * @example
  * ```tsx
- * import { AspectRatio } from '@adsmurai/dsr-react';
+ * import { AspectRatio } from 'adsmurai-dsr-react';
  *
  * // 16:9 aspect ratio for video content
  * <div className="w-[450px]">

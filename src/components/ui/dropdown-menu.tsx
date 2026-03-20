@@ -13,8 +13,8 @@
  *   DropdownMenuContent,
  *   DropdownMenuItem,
  *   DropdownMenuSeparator,
- * } from '@adsmurai/dsr-react';
- * import { Button } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
+ * import { Button } from 'adsmurai-dsr-react';
  *
  * <DropdownMenu>
  *   <DropdownMenuTrigger asChild>

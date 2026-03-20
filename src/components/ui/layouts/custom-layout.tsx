@@ -8,7 +8,7 @@
  *
  * @example
  * ```tsx
- * import { CustomLayout } from '@adsmurai/dsr-react';
+ * import { CustomLayout } from 'adsmurai-dsr-react';
  *
  * // As a dashboard with organizations
  * <CustomLayout

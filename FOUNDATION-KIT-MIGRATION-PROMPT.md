@@ -1,4 +1,4 @@
-# Prompt: Migración Foundation Kit a @adsmurai/dsr-react
+# Prompt: Migración Foundation Kit a adsmurai-dsr-react
 
 > Este prompt está diseñado para ser ejecutado en un proyecto Foundation Kit generado desde Lovable.
 
@@ -8,19 +8,19 @@
 
 Estás ejecutándote dentro del nuevo proyecto base generado desde Lovable (Foundation Kit actualizado).
 
-Este proyecto debe convertirse en el **template oficial** que consume la librería UI `@adsmurai/dsr-react`.
+Este proyecto debe convertirse en el **template oficial** que consume la librería UI `adsmurai-dsr-react`.
 
 ### Arquitectura
 
 ```
 Lovable Template (Foundation Kit)
         ↓
-@adsmurai/dsr-react         ← Contrato UI público (este paquete)
+adsmurai-dsr-react         ← Contrato UI público (este paquete)
         ↓
 @adsmurai/design-system-react  ← Interno (NO importar directamente)
 ```
 
-### Sobre @adsmurai/dsr-react
+### Sobre adsmurai-dsr-react
 
 Es una librería wrapper que:
 - Encapsula el Design System interno (DSR)
@@ -28,16 +28,16 @@ Es una librería wrapper que:
 - Es compatible con Lovable Design System integration
 - Exporta ~100 componentes UI, hooks y utilidades
 
-**Versión actual:** `0.1.1-snapshot.8`
+**Versión actual:** `1.0.0`
 
 ---
 
 ## Objetivo Principal
 
 1. Migrar Foundation Kit para usar **EXCLUSIVAMENTE**:
-   - `@adsmurai/dsr-react` → Componentes, hooks, utilidades
-   - `@adsmurai/dsr-react/enums` → Todos los enums
-   - `@adsmurai/dsr-react/types` → Tipos TypeScript
+   - `adsmurai-dsr-react` → Componentes, hooks, utilidades
+   - `adsmurai-dsr-react/enums` → Todos los enums
+   - `adsmurai-dsr-react/types` → Tipos TypeScript
 
 2. **Eliminar** cualquier uso directo de:
    - `@adsmurai/design-system-react`
@@ -62,30 +62,30 @@ import {
   Select,
   useIsMobile,
   cn
-} from '@adsmurai/dsr-react';
+} from 'adsmurai-dsr-react';
 
 // Enums (SIEMPRE desde /enums)
 import {
   IconsEnum,
   ButtonVariantEnum,
   ThemesEnum
-} from '@adsmurai/dsr-react/enums';
+} from 'adsmurai-dsr-react/enums';
 
 // Types (SIEMPRE desde /types)
 import type {
   ButtonProps,
   InputProps,
   SelectOption
-} from '@adsmurai/dsr-react/types';
+} from 'adsmurai-dsr-react/types';
 ```
 
 ### Imports PROHIBIDOS
 
 ```tsx
 // NUNCA hacer esto:
-import { IconsEnum } from '@adsmurai/dsr-react';           // enums no en root
-import type { ButtonProps } from '@adsmurai/dsr-react';    // types no en root
-import { Button } from '@adsmurai/dsr-react/components/ui/button'; // path interno
+import { IconsEnum } from 'adsmurai-dsr-react';           // enums no en root
+import type { ButtonProps } from 'adsmurai-dsr-react';    // types no en root
+import { Button } from 'adsmurai-dsr-react/components/ui/button'; // path interno
 import { Button } from '@adsmurai/design-system-react';    // DSR directo
 ```
 
@@ -136,11 +136,8 @@ import { Button } from '@adsmurai/design-system-react';    // DSR directo
 ### Instalación
 
 ```bash
-# Configurar registry para @adsmurai
-npm config set @adsmurai:registry https://gitlab.com/api/v4/projects/44725271/packages/npm/
-
 # Instalar la librería
-npm install @adsmurai/dsr-react@snapshot
+npm install adsmurai-dsr-react
 ```
 
 ### Peer Dependencies Requeridas
@@ -150,7 +147,6 @@ El proyecto destino DEBE tener instaladas:
 ```json
 {
   "dependencies": {
-    "@adsmurai/design-system-react": ">=9.0.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
     "tailwindcss": ">=3.0.0"
@@ -208,22 +204,17 @@ El proyecto DEBE usar Tailwind CSS 3.x. La librería usa clases de Tailwind inte
 **Objetivo:** Instalar y configurar la librería.
 
 **Tareas:**
-1. Agregar configuración de registry npm (si no existe `.npmrc`):
-   ```
-   @adsmurai:registry=https://gitlab.com/api/v4/projects/44725271/packages/npm/
-   ```
-
-2. Instalar dependencias:
+1. Instalar dependencias:
    ```bash
-   npm install @adsmurai/dsr-react@snapshot
+   npm install adsmurai-dsr-react
    ```
 
 3. Verificar peer dependencies instaladas
 
 4. Actualizar imports archivo por archivo:
-   - Componentes → `@adsmurai/dsr-react`
-   - Enums → `@adsmurai/dsr-react/enums`
-   - Types → `@adsmurai/dsr-react/types`
+   - Componentes → `adsmurai-dsr-react`
+   - Enums → `adsmurai-dsr-react/enums`
+   - Types → `adsmurai-dsr-react/types`
 
 5. Eliminar componentes UI locales que ahora vienen de la librería
 
@@ -307,7 +298,7 @@ npm run lint     # Debe pasar sin errores críticos
 
 5. **Cómo actualizar dsr-react**
    ```bash
-   npm update @adsmurai/dsr-react@snapshot
+   npm update adsmurai-dsr-react
    ```
 
 6. **Cómo crear nuevo proyecto desde Lovable**
@@ -350,8 +341,8 @@ npm run lint     # Debe pasar sin errores críticos
 | Patrón Anterior | Patrón dsr-react |
 |-----------------|------------------|
 | `<Button onClick={fn}>Text</Button>` | `<Button onClick={fn}>Text</Button>` (igual) |
-| `import { IconsEnum } from 'dsr'` | `import { IconsEnum } from '@adsmurai/dsr-react/enums'` |
-| `interface Props { ... }` local | `import type { ButtonProps } from '@adsmurai/dsr-react/types'` |
+| `import { IconsEnum } from 'dsr'` | `import { IconsEnum } from 'adsmurai-dsr-react/enums'` |
+| `interface Props { ... }` local | `import type { ButtonProps } from 'adsmurai-dsr-react/types'` |
 
 ### Componentes que pueden tener nombres diferentes
 

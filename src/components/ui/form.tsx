@@ -13,8 +13,8 @@
  * import { useForm } from 'react-hook-form';
  * import { zodResolver } from '@hookform/resolvers/zod';
  * import { z } from 'zod';
- * import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@adsmurai/dsr-react';
- * import { Input, Button } from '@adsmurai/dsr-react';
+ * import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from 'adsmurai-dsr-react';
+ * import { Input, Button } from 'adsmurai-dsr-react';
  *
  * const schema = z.object({
  *   email: z.string().email('Invalid email'),

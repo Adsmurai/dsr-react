@@ -18,8 +18,8 @@
  *
  * @example Basic usage
  * ```tsx
- * import { DialogButton } from '@adsmurai/dsr-react';
- * import { Button } from '@adsmurai/dsr-react';
+ * import { DialogButton } from 'adsmurai-dsr-react';
+ * import { Button } from 'adsmurai-dsr-react';
  *
  * <DialogButton title="Confirm Action" buttonLabel="Open Dialog">
  *   {(onClose) => (

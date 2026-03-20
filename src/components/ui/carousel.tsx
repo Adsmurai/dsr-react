@@ -15,7 +15,7 @@
  *   CarouselItem,
  *   CarouselPrevious,
  *   CarouselNext,
- * } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
  *
  * // Basic image carousel
  * <Carousel className="w-full max-w-xs">

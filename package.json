@@ -1,6 +1,6 @@
 {
-  "name": "@adsmurai/dsr-react",
-  "version": "0.1.1-snapshot.18",
+  "name": "adsmurai-dsr-react",
+  "version": "1.1.0",
   "description": "Adsmurai Design System React - UI component library wrapping DSR components",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -57,7 +57,6 @@
     "build-storybook": "storybook build"
   },
   "peerDependencies": {
-    "@adsmurai/design-system-react": ">=9.0.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
     "react-hook-form": ">=7.0.0",
@@ -73,6 +72,7 @@
     }
   },
   "dependencies": {
+    "@adsmurai/design-system-react": "9.95.6",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
@@ -166,9 +166,10 @@
     "dsr"
   ],
   "author": "Adsmurai",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "publishConfig": {
-    "@adsmurai:registry": "https://gitlab.com/api/v4/projects/44725271/packages/npm/"
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "eslintConfig": {
     "extends": [

@@ -138,5 +138,5 @@ export type {
   IsSelectedFn,
 } from '@adsmurai/design-system-react';
 
-// Note: Import enums from '@adsmurai/dsr-react/enums' instead
-// e.g.: import { IconsEnum, ThemesEnum } from '@adsmurai/dsr-react/enums';
+// Note: Import enums from 'adsmurai-dsr-react/enums' instead
+// e.g.: import { IconsEnum, ThemesEnum } from 'adsmurai-dsr-react/enums';

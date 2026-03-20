@@ -1,4 +1,4 @@
-# Common Patterns for @adsmurai/dsr-react
+# Common Patterns for adsmurai-dsr-react
 
 > Complete, copy-paste ready examples for common use cases.
 
@@ -29,7 +29,7 @@ import {
   Select,
   Checkbox,
   Textarea,
-} from '@adsmurai/dsr-react';
+} from 'adsmurai-dsr-react';
 
 // 1. Define schema
 const formSchema = z.object({
@@ -173,8 +173,8 @@ Complete DataTable with selection, sorting, pagination, and bulk actions.
 
 ```tsx
 import { useState, useMemo } from 'react';
-import { DataTable, Badge, IconButton, useToast } from '@adsmurai/dsr-react';
-import type { ExtendedGridColDef, GridRowId } from '@adsmurai/dsr-react/types';
+import { DataTable, Badge, IconButton, useToast } from 'adsmurai-dsr-react';
+import type { ExtendedGridColDef, GridRowId } from 'adsmurai-dsr-react/types';
 
 // 1. Define your data type
 interface User {
@@ -320,7 +320,7 @@ const { data, total, isLoading } = useQuery(['users', page, pageSize], () =>
 
 **Row Actions with ActionMenu** (recommended over multiple IconButtons):
 ```tsx
-import { ActionMenu } from '@adsmurai/dsr-react';
+import { ActionMenu } from 'adsmurai-dsr-react';
 
 const columns: ExtendedGridColDef[] = [
   // ...other columns
@@ -378,7 +378,7 @@ Reusable confirmation modal pattern.
 
 ```tsx
 import { useState } from 'react';
-import { Modal, Button } from '@adsmurai/dsr-react';
+import { Modal, Button } from 'adsmurai-dsr-react';
 
 interface ConfirmModalProps {
   open: boolean;
@@ -479,7 +479,7 @@ import {
   DialogFooter,
   DialogClose,
   Button,
-} from '@adsmurai/dsr-react';
+} from 'adsmurai-dsr-react';
 
 <Dialog>
   <DialogTrigger asChild>
@@ -514,7 +514,7 @@ Use when user must choose exactly one option.
 
 ```tsx
 import { useState } from 'react';
-import { RadioGroup, RadioGroupItem, Button } from '@adsmurai/dsr-react';
+import { RadioGroup, RadioGroupItem, Button } from 'adsmurai-dsr-react';
 
 export function PlanSelector() {
   const [selectedPlan, setSelectedPlan] = useState('basic');
@@ -543,7 +543,7 @@ Use when user can select zero or more options.
 
 ```tsx
 import { useState } from 'react';
-import { Checkbox, Button } from '@adsmurai/dsr-react';
+import { Checkbox, Button } from 'adsmurai-dsr-react';
 
 const features = [
   { id: 'analytics', label: 'Analytics Dashboard' },
@@ -592,7 +592,7 @@ export function FeatureSelector() {
 Use Select with `isMulti` for compact multi-selection.
 
 ```tsx
-import { Select } from '@adsmurai/dsr-react';
+import { Select } from 'adsmurai-dsr-react';
 
 const tagOptions = [
   { label: 'React', value: 'react' },
@@ -625,7 +625,7 @@ export function TagSelector() {
 ### Basic Tabs
 
 ```tsx
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@adsmurai/dsr-react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from 'adsmurai-dsr-react';
 
 export function SettingsTabs() {
   return (
@@ -661,7 +661,7 @@ export function SettingsTabs() {
 
 ```tsx
 import { useSearchParams } from 'react-router-dom';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@adsmurai/dsr-react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from 'adsmurai-dsr-react';
 
 export function SettingsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -692,8 +692,8 @@ export function SettingsPage() {
 Dashboard statistics display.
 
 ```tsx
-import { Card, CardHeader, CardTitle, CardContent, Badge, Icon } from '@adsmurai/dsr-react';
-import { IconsEnum } from '@adsmurai/dsr-react/enums';
+import { Card, CardHeader, CardTitle, CardContent, Badge, Icon } from 'adsmurai-dsr-react';
+import { IconsEnum } from 'adsmurai-dsr-react/enums';
 
 interface StatCardProps {
   title: string;
@@ -771,7 +771,7 @@ Search bar with filter chips.
 
 ```tsx
 import { useState } from 'react';
-import { InputSearch, Chip, Select, Button } from '@adsmurai/dsr-react';
+import { InputSearch, Chip, Select, Button } from 'adsmurai-dsr-react';
 
 interface Filter {
   id: string;
@@ -898,8 +898,8 @@ import {
   SidebarFooter,
   SidebarTrigger,
   Icon,
-} from '@adsmurai/dsr-react';
-import { IconsEnum } from '@adsmurai/dsr-react/enums';
+} from 'adsmurai-dsr-react';
+import { IconsEnum } from 'adsmurai-dsr-react/enums';
 
 const menuItems = [
   { icon: IconsEnum.Dashboard, label: 'Dashboard', href: '/' },
@@ -974,9 +974,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 ## Tips for AI Tools
 
 1. **Always import from the correct paths**:
-   - Components: `@adsmurai/dsr-react`
-   - Enums: `@adsmurai/dsr-react/enums`
-   - Types: `@adsmurai/dsr-react/types`
+   - Components: `adsmurai-dsr-react`
+   - Enums: `adsmurai-dsr-react/enums`
+   - Types: `adsmurai-dsr-react/types`
 
 2. **String-only children**: Button, Badge, Checkbox, RadioGroupItem only accept strings
 

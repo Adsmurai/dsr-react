@@ -1,12 +1,12 @@
-# AI Instructions for @adsmurai/dsr-react
+# AI Instructions for adsmurai-dsr-react
 
 > This document helps AI tools (Lovable, Claude, Cursor, etc.) use this component library correctly.
 
 ## Architecture Overview
 
-`@adsmurai/dsr-react` is a **wrapper layer** for the internal `@adsmurai/design-system-react` (DSR).
+`adsmurai-dsr-react` is a **wrapper layer** for the internal `@adsmurai/design-system-react` (DSR).
 
-- **Never import from DSR directly** - always use `@adsmurai/dsr-react`
+- **Never import from DSR directly** - always use `adsmurai-dsr-react`
 - Components expose a simplified, React-standard API
 - Internal DSR complexity is hidden from consumers
 
@@ -14,19 +14,19 @@
 
 ```tsx
 // CORRECT - Components, hooks, utilities from root
-import { Button, Input, Card, useIsMobile, cn } from '@adsmurai/dsr-react';
+import { Button, Input, Card, useIsMobile, cn } from 'adsmurai-dsr-react';
 
 // CORRECT - Enums from /enums subpath
-import { IconsEnum, ButtonVariantEnum, BadgeColorEnum } from '@adsmurai/dsr-react/enums';
+import { IconsEnum, ButtonVariantEnum, BadgeColorEnum } from 'adsmurai-dsr-react/enums';
 
 // CORRECT - Types from /types subpath
-import type { ButtonProps, InputProps, SelectProps } from '@adsmurai/dsr-react/types';
+import type { ButtonProps, InputProps, SelectProps } from 'adsmurai-dsr-react/types';
 
 // WRONG - Never import enums/types from root
-import { IconsEnum } from '@adsmurai/dsr-react'; // ERROR
+import { IconsEnum } from 'adsmurai-dsr-react'; // ERROR
 
 // WRONG - Never use internal paths
-import { Button } from '@adsmurai/dsr-react/components/ui/button'; // ERROR
+import { Button } from 'adsmurai-dsr-react/components/ui/button'; // ERROR
 
 // WRONG - Never import from DSR directly
 import { Button } from '@adsmurai/design-system-react'; // ERROR
@@ -203,7 +203,7 @@ These components **do not support refs** (DSR limitation):
 
 ### Button with Icon
 ```tsx
-import { Button } from '@adsmurai/dsr-react';
+import { Button } from 'adsmurai-dsr-react';
 
 <Button variant="default" startIcon="Add">Add Item</Button>
 <Button variant="outline" endIcon="OpenInNew">Open Link</Button>
@@ -212,7 +212,7 @@ import { Button } from '@adsmurai/dsr-react';
 
 ### Form Input
 ```tsx
-import { Input } from '@adsmurai/dsr-react';
+import { Input } from 'adsmurai-dsr-react';
 
 <Input
   label="Email"
@@ -227,7 +227,7 @@ import { Input } from '@adsmurai/dsr-react';
 
 ### Select
 ```tsx
-import { Select } from '@adsmurai/dsr-react';
+import { Select } from 'adsmurai-dsr-react';
 
 <Select
   label="Country"
@@ -244,7 +244,7 @@ import { Select } from '@adsmurai/dsr-react';
 
 ### RadioGroup
 ```tsx
-import { RadioGroup, RadioGroupItem } from '@adsmurai/dsr-react';
+import { RadioGroup, RadioGroupItem } from 'adsmurai-dsr-react';
 
 <RadioGroup value={selected} onValueChange={setSelected}>
   <RadioGroupItem value="option1">Option 1</RadioGroupItem>
@@ -255,7 +255,7 @@ import { RadioGroup, RadioGroupItem } from '@adsmurai/dsr-react';
 
 ### Checkbox
 ```tsx
-import { Checkbox } from '@adsmurai/dsr-react';
+import { Checkbox } from 'adsmurai-dsr-react';
 
 <Checkbox checked={accepted} onCheckedChange={setAccepted}>
   I accept the terms and conditions
@@ -264,7 +264,7 @@ import { Checkbox } from '@adsmurai/dsr-react';
 
 ### Badge
 ```tsx
-import { Badge } from '@adsmurai/dsr-react';
+import { Badge } from 'adsmurai-dsr-react';
 
 <Badge variant="success">Active</Badge>
 <Badge variant="destructive">3</Badge>
@@ -273,7 +273,7 @@ import { Badge } from '@adsmurai/dsr-react';
 
 ### ActionMenu
 ```tsx
-import { ActionMenu } from '@adsmurai/dsr-react';
+import { ActionMenu } from 'adsmurai-dsr-react';
 
 <ActionMenu
   actions={[
@@ -294,7 +294,7 @@ import { ActionMenu } from '@adsmurai/dsr-react';
 
 ### Chip
 ```tsx
-import { Chip } from '@adsmurai/dsr-react';
+import { Chip } from 'adsmurai-dsr-react';
 
 // Note: uses label prop, not children
 <Chip label="React" selected />
@@ -304,7 +304,7 @@ import { Chip } from '@adsmurai/dsr-react';
 
 ### DataTable
 ```tsx
-import { DataTable } from '@adsmurai/dsr-react';
+import { DataTable } from 'adsmurai-dsr-react';
 
 <DataTable
   columns={[
@@ -324,7 +324,7 @@ import { DataTable } from '@adsmurai/dsr-react';
 
 ### Modal
 ```tsx
-import { Modal, Button } from '@adsmurai/dsr-react';
+import { Modal, Button } from 'adsmurai-dsr-react';
 
 <Modal
   open={isOpen}
@@ -343,7 +343,7 @@ import { Modal, Button } from '@adsmurai/dsr-react';
 
 ### Drawer
 ```tsx
-import { Drawer } from '@adsmurai/dsr-react';
+import { Drawer } from 'adsmurai-dsr-react';
 
 // Note: Only left/right placement. Use Sheet for top/bottom.
 <Drawer
@@ -359,7 +359,7 @@ import { Drawer } from '@adsmurai/dsr-react';
 
 ### Tabs
 ```tsx
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@adsmurai/dsr-react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from 'adsmurai-dsr-react';
 
 <Tabs defaultValue="tab1">
   <TabsList>
@@ -373,7 +373,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@adsmurai/dsr-react';
 
 ### Stepper
 ```tsx
-import { Stepper } from '@adsmurai/dsr-react';
+import { Stepper } from 'adsmurai-dsr-react';
 
 const [activeStep, setActiveStep] = useState(0); // 0-indexed!
 
@@ -400,8 +400,8 @@ const [activeStep, setActiveStep] = useState(0); // 0-indexed!
 
 ### Icon
 ```tsx
-import { Icon } from '@adsmurai/dsr-react';
-import { IconsEnum } from '@adsmurai/dsr-react/enums';
+import { Icon } from 'adsmurai-dsr-react';
+import { IconsEnum } from 'adsmurai-dsr-react/enums';
 
 <Icon name={IconsEnum.Add} size="medium" />
 <Icon name="Settings" size="small" color="primary" />
@@ -409,7 +409,7 @@ import { IconsEnum } from '@adsmurai/dsr-react/enums';
 
 ### DatePicker
 ```tsx
-import { DatePicker } from '@adsmurai/dsr-react';
+import { DatePicker } from 'adsmurai-dsr-react';
 
 // Date only
 <DatePicker
@@ -440,7 +440,7 @@ import { DatePicker } from '@adsmurai/dsr-react';
 
 ### DateRangePicker
 ```tsx
-import { DateRangePicker } from '@adsmurai/dsr-react';
+import { DateRangePicker } from 'adsmurai-dsr-react';
 
 // With shortcuts
 <DateRangePicker
@@ -462,7 +462,7 @@ import { DateRangePicker } from '@adsmurai/dsr-react';
 
 ### Toast
 ```tsx
-import { useToast, Toaster } from '@adsmurai/dsr-react';
+import { useToast, Toaster } from 'adsmurai-dsr-react';
 
 // In app root
 <Toaster />
@@ -492,7 +492,7 @@ See [PATTERNS.md](./PATTERNS.md) for complete, copy-paste ready examples includi
 
 ## Enums Reference
 
-Import from `@adsmurai/dsr-react/enums`:
+Import from `adsmurai-dsr-react/enums`:
 
 | Enum | Values | Used In |
 |------|--------|---------|
@@ -506,4 +506,4 @@ Import from `@adsmurai/dsr-react/enums`:
 
 ## Version
 
-This document is for `@adsmurai/dsr-react` version 0.1.x.
+This document is for `adsmurai-dsr-react` version 1.x.

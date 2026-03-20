@@ -24,7 +24,7 @@
  * </ToggleButtonGroup>
  *
  * // With icon
- * import { IconsEnum } from '@adsmurai/dsr-react/enums';
+ * import { IconsEnum } from 'adsmurai-dsr-react/enums';
  * <ToggleButton value="bold" icon={IconsEnum.FormatBold} />
  *
  * // With label and icon

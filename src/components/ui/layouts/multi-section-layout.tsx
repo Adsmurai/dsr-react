@@ -7,8 +7,8 @@
  *
  * @example
  * ```tsx
- * import { MultiSectionLayout } from '@adsmurai/dsr-react';
- * import { IconsEnum } from '@adsmurai/dsr-react/enums';
+ * import { MultiSectionLayout } from 'adsmurai-dsr-react';
+ * import { IconsEnum } from 'adsmurai-dsr-react/enums';
  *
  * const sections = [
  *   {

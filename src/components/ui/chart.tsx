@@ -11,9 +11,9 @@
  *   ChartContainer,
  *   ChartTooltip,
  *   ChartTooltipContent,
- * } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
  * import { Area, AreaChart, XAxis } from 'recharts';
- * import type { ChartConfig } from '@adsmurai/dsr-react/types';
+ * import type { ChartConfig } from 'adsmurai-dsr-react/types';
  *
  * const chartConfig: ChartConfig = {
  *   revenue: { label: 'Revenue', color: 'hsl(var(--chart-1))' },

@@ -17,7 +17,7 @@
  *   MenubarItem,
  *   MenubarSeparator,
  *   MenubarShortcut,
- * } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
  *
  * // Basic application menubar
  * <Menubar>

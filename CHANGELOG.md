@@ -5,7 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.0] - 2026-03-20
+
+### Improved
+- **Build**: Source maps removed from published package, dependencies externalized for smaller bundle size (10.5 MB → 3.3 MB)
+- **Docs**: Updated all documentation to reflect 1.0 migration
+
+## [1.0.0] - 2026-03-20
+
+### Changed
+- **Package name**: Renamed from `@adsmurai/dsr-react` to `adsmurai-dsr-react`
+- **Registry**: Migrated from GitLab npm registry to npmjs.org (public)
+- **License**: Changed from `UNLICENSED` to `MIT`
+- **@adsmurai/design-system-react**: Moved from peer dependency to bundled dependency (consumers no longer need GitLab token)
 
 ## [0.1.1-snapshot.18] - 2026-02-26
 
@@ -200,7 +212,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `MultiTextField`: Warning for invalid regex patterns
   - `Icon`: Warning for unknown icon names (when using arbitrary strings)
 
-- New type exports in `@adsmurai/dsr-react/types`:
+- New type exports in `adsmurai-dsr-react/types`:
   - `StepperStep` - Step definition for Stepper component
   - `ChartLegendItem` - Legend item for ChartLegend
   - `TreeViewItem` - Node definition for TreeView
@@ -212,14 +224,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **BREAKING**: Enums are now only exported from `@adsmurai/dsr-react/enums`
+- **BREAKING**: Enums are now only exported from `adsmurai-dsr-react/enums`
   - Removed `IconsEnum`, `ThemesEnum` re-exports from component files
   - Removed `IconsEnum`, `IconBaseTypeEnum`, `BadgeColorEnum` re-exports from `icon.tsx`
-  - Migration: `import { IconsEnum } from '@adsmurai/dsr-react/enums'`
+  - Migration: `import { IconsEnum } from 'adsmurai-dsr-react/enums'`
 
-- **BREAKING**: Types are now only exported from `@adsmurai/dsr-react/types`
+- **BREAKING**: Types are now only exported from `adsmurai-dsr-react/types`
   - Removed inline type exports from component barrel (`index.ts`)
-  - Migration: `import type { ButtonProps } from '@adsmurai/dsr-react/types'`
+  - Migration: `import type { ButtonProps } from 'adsmurai-dsr-react/types'`
 
 - **BREAKING**: Removed composable Breadcrumb components in favor of DSR-based `Breadcrumbs`
   - Removed: `Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`
@@ -250,9 +262,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial public release of `@adsmurai/dsr-react`
+- Initial public release of `adsmurai-dsr-react`
 - UI components wrapping DSR core components
 - Custom hooks: `useIsMobile`, `useCopyToClipboard`
 - Utility function `cn()` for class merging
-- Exportable enums via `@adsmurai/dsr-react/enums`
-- Exportable types via `@adsmurai/dsr-react/types`
+- Exportable enums via `adsmurai-dsr-react/enums`
+- Exportable types via `adsmurai-dsr-react/types`

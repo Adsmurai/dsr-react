@@ -7,8 +7,8 @@
  *
  * @example
  * ```tsx
- * import { DashboardLayout } from '@adsmurai/dsr-react';
- * import { IconsEnum } from '@adsmurai/dsr-react/enums';
+ * import { DashboardLayout } from 'adsmurai-dsr-react';
+ * import { IconsEnum } from 'adsmurai-dsr-react/enums';
  *
  * const sidebarOptions = [
  *   { name: 'Home', icon: IconsEnum.Home, to: '/', linkVariant: 'full' },

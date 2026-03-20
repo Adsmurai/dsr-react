@@ -334,7 +334,7 @@ export {
 export { Toaster as Sonner } from './sonner';
 
 // HeaderMenu (DSR HeaderMenuTemplateV2)
-// Note: Import enums from '@adsmurai/dsr-react/enums', types from '@adsmurai/dsr-react/types'
+// Note: Import enums from 'adsmurai-dsr-react/enums', types from 'adsmurai-dsr-react/types'
 export { HeaderMenu, HeaderMenuTemplateV2 } from './header-menu';
 export {
   createLink,

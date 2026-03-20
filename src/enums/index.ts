@@ -2,16 +2,16 @@
  * @fileoverview Centralized barrel export for all DSR enums
  *
  * @description
- * Single import point for all public enums from @adsmurai/dsr-react.
+ * Single import point for all public enums from adsmurai-dsr-react.
  * This provides a cleaner API and better tree-shaking support.
  *
  * @example
  * ```tsx
  * // Recommended: Import from /enums subpath
- * import { IconsEnum, ButtonVariantEnum } from '@adsmurai/dsr-react/enums';
+ * import { IconsEnum, ButtonVariantEnum } from 'adsmurai-dsr-react/enums';
  *
  * // Also available from root (backwards compatibility)
- * import { IconsEnum } from '@adsmurai/dsr-react';
+ * import { IconsEnum } from 'adsmurai-dsr-react';
  * ```
  *
  * @since 0.1.1-snapshot.2

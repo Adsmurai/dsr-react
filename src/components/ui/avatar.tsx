@@ -27,7 +27,7 @@
  *
  * @example
  * ```tsx
- * import { Avatar, AvatarImage, AvatarFallback } from '@adsmurai/dsr-react';
+ * import { Avatar, AvatarImage, AvatarFallback } from 'adsmurai-dsr-react';
  *
  * // Basic avatar with fallback
  * <Avatar>

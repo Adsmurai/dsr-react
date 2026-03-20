@@ -16,7 +16,7 @@
  *   ContextMenuItem,
  *   ContextMenuSeparator,
  *   ContextMenuShortcut,
- * } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
  *
  * // Basic context menu
  * <ContextMenu>

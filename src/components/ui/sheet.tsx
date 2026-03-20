@@ -25,8 +25,8 @@
  *   SheetHeader,
  *   SheetTitle,
  *   SheetDescription,
- * } from '@adsmurai/dsr-react';
- * import { Button } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
+ * import { Button } from 'adsmurai-dsr-react';
  *
  * <Sheet>
  *   <SheetTrigger asChild>

@@ -44,7 +44,7 @@
  *   CommandList,
  *   CommandSeparator,
  *   CommandShortcut,
- * } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
  *
  * // Basic command menu
  * <Command>

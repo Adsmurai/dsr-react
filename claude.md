@@ -1,4 +1,4 @@
-# @adsmurai/dsr-react
+# adsmurai-dsr-react
 
 Official public UI wrapper layer on top of the internal Adsmurai Design System (DSR).
 
@@ -15,22 +15,22 @@ Official public UI wrapper layer on top of the internal Adsmurai Design System (
 ### Single Public Entry Point
 
 All UI components, enums, hooks and helpers must be consumed from:
-- `@adsmurai/dsr-react` - Components, hooks, utilities
-- `@adsmurai/dsr-react/enums` - All enums (IconsEnum, ButtonVariantEnum, etc.)
-- `@adsmurai/dsr-react/types` - TypeScript prop types
+- `adsmurai-dsr-react` - Components, hooks, utilities
+- `adsmurai-dsr-react/enums` - All enums (IconsEnum, ButtonVariantEnum, etc.)
+- `adsmurai-dsr-react/types` - TypeScript prop types
 
 Direct imports from internal files or from the DSR core are forbidden.
 
 ```tsx
 // Correct imports
-import { Button, Input, Card, useIsMobile, cn } from '@adsmurai/dsr-react';
-import { IconsEnum, ButtonVariantEnum, ThemesEnum } from '@adsmurai/dsr-react/enums';
-import type { ButtonProps, InputProps } from '@adsmurai/dsr-react/types';
+import { Button, Input, Card, useIsMobile, cn } from 'adsmurai-dsr-react';
+import { IconsEnum, ButtonVariantEnum, ThemesEnum } from 'adsmurai-dsr-react/enums';
+import type { ButtonProps, InputProps } from 'adsmurai-dsr-react/types';
 
 // WRONG - never do this
-import { IconsEnum } from '@adsmurai/dsr-react'; // enums not exported from root
-import type { ButtonProps } from '@adsmurai/dsr-react'; // types not exported from root
-import { Button } from '@adsmurai/dsr-react/components/ui/button'; // internal path
+import { IconsEnum } from 'adsmurai-dsr-react'; // enums not exported from root
+import type { ButtonProps } from 'adsmurai-dsr-react'; // types not exported from root
+import { Button } from 'adsmurai-dsr-react/components/ui/button'; // internal path
 import { IconsEnum } from '@adsmurai/design-system-react'; // direct DSR import
 ```
 
@@ -50,7 +50,7 @@ Components should NOT export types inline in the barrel file. Types are defined 
 
 DSR is an internal dependency. If DSR changes, the fix must happen inside dsr-react without breaking consumers.
 
-> **Architectural note:** DSR is currently a peer dependency, meaning consumers install it and could technically import from it directly. To enforce encapsulation at the package level, consider moving DSR from `peerDependencies` to `dependencies`. This would hide DSR from consumers entirely. No React Providers or contexts from DSR are used, so there's no technical blocker for this change.
+> **Architectural note:** DSR is bundled as a regular dependency. Consumers do not need to install it separately or have access to the GitLab registry.
 
 ## Public API Contract
 
@@ -85,7 +85,7 @@ Never apply large refactors in one step.
 
 ## Foundation Kit
 
-Foundation Kit is the main starter template project that uses `@adsmurai/dsr-react`.
+Foundation Kit is the main starter template project that uses `adsmurai-dsr-react`.
 
 It serves as:
 - The primary real-world validation environment for this library
@@ -167,7 +167,7 @@ Stable releases happen only after multiple validated snapshots.
 
 ## Publishing
 
-- Registry: GitLab Package Registry
+- Registry: npmjs.org (public)
 - Snapshots: `npm run publish:snapshot`
 - Releases: `npm run publish:release`
 
@@ -207,7 +207,7 @@ Update the `[Unreleased]` section with each change. Move to a versioned section 
 
 ### Internal Dependencies
 
-- `@adsmurai/design-system-react` - Currently peer, recommended to move to regular dependency for full encapsulation
+- `@adsmurai/design-system-react` - Bundled dependency (not exposed to consumers)
 
 ---
 

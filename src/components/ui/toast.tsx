@@ -7,7 +7,7 @@
  *
  * @example Using useToast hook (recommended)
  * ```tsx
- * import { useToast, Toaster } from '@adsmurai/dsr-react';
+ * import { useToast, Toaster } from 'adsmurai-dsr-react';
  *
  * function App() {
  *   return (

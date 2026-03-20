@@ -9,7 +9,7 @@
  *
  * @example
  * ```tsx
- * import { ScrollArea, ScrollBar } from '@adsmurai/dsr-react';
+ * import { ScrollArea, ScrollBar } from 'adsmurai-dsr-react';
  *
  * // Vertical scroll area
  * <ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">

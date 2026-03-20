@@ -62,7 +62,7 @@
  *   SidebarMenuItem,
  *   SidebarProvider,
  *   SidebarTrigger,
- * } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
  *
  * // Basic sidebar layout
  * function AppLayout({ children }) {

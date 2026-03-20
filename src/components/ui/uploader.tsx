@@ -23,7 +23,7 @@
  *
  * @example
  * // Using presets
- * import { Uploader, UPLOADER_ACCEPT_PRESETS } from '@adsmurai/dsr-react';
+ * import { Uploader, UPLOADER_ACCEPT_PRESETS } from 'adsmurai-dsr-react';
  *
  * <Uploader
  *   accept={UPLOADER_ACCEPT_PRESETS.images}

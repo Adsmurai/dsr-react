@@ -32,7 +32,7 @@
  *
  * @example
  * ```tsx
- * import { Toaster, toast } from '@adsmurai/dsr-react';
+ * import { Toaster, toast } from 'adsmurai-dsr-react';
  *
  * // Add Toaster to your app root
  * export default function RootLayout({ children }) {

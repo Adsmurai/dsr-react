@@ -27,7 +27,7 @@
  *
  * @example
  * ```tsx
- * import { Calendar } from '@adsmurai/dsr-react';
+ * import { Calendar } from 'adsmurai-dsr-react';
  *
  * // Single date selection
  * function SingleDateCalendar() {

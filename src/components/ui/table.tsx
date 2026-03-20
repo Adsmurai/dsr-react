@@ -24,7 +24,7 @@
  *   TableRow,
  *   TableHead,
  *   TableCell,
- * } from '@adsmurai/dsr-react';
+ * } from 'adsmurai-dsr-react';
  *
  * const users = [
  *   { id: 1, name: 'John', email: 'john@example.com' },
