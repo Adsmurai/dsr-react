@@ -36,7 +36,8 @@
         "types": "./dist/types.d.ts",
         "default": "./dist/types.cjs"
       }
-    }
+    },
+    "./styles": "./dist/styles.css"
   },
   "files": [
     "dist"
@@ -100,6 +101,8 @@
     "@radix-ui/react-toggle": "^1.1.9",
     "@radix-ui/react-toggle-group": "^1.1.10",
     "@radix-ui/react-tooltip": "^1.2.7",
+    "@tiptap/core": "^2.7.0",
+    "@tiptap/pm": "^2.7.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
