@@ -33,3 +33,6 @@ coverage/
 
 *storybook.log
 storybook-static
+
+# npm config (may contain auth tokens)
+.npmrc

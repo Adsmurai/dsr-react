@@ -153,6 +153,7 @@ export type {
   LinksSection,
   Link,
   IsSelectedFn,
+  OrganizationSearchResponse,
 } from '../components/ui/header-menu';
 export type {
   HeaderMenuLink,

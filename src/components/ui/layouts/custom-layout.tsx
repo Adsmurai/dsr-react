@@ -26,7 +26,7 @@
 
 import React from 'react';
 import { HeaderMenuTemplateV2 } from '../header-menu';
-import type { LinksSection, IsSelectedFn, HeaderMenuV2SidebarNavOption } from '../header-menu';
+import type { LinksSection, IsSelectedFn, HeaderMenuV2SidebarNavOption, OrganizationSearchResponse } from '../header-menu';
 import {
   defaultHomeLinks,
   defaultUserMenuSections,
@@ -59,6 +59,8 @@ export interface CustomLayoutProps {
   organizations?: LinksSection[];
   activeOrgId?: string;
   activeOrgName?: string;
+  onOrgSearch?: (search: string, limit?: number, cursor?: string) => Promise<OrganizationSearchResponse>;
+  orgBaseUrl?: string;
 
   // Header - User
   user?: LayoutUser | null;
@@ -84,6 +86,8 @@ export const CustomLayout: React.FC<CustomLayoutProps> = ({
   organizations,
   activeOrgId,
   activeOrgName,
+  onOrgSearch,
+  orgBaseUrl = '/',
   user,
   userMenuSections = defaultUserMenuSections,
   onLogout,
@@ -110,11 +114,13 @@ export const CustomLayout: React.FC<CustomLayoutProps> = ({
         {helpers && helpers.length > 0 && (
           <HeaderMenuTemplateV2.Helpers icons={helpers} />
         )}
-        {organizations && organizations.length > 0 && activeOrgId && (
+        {organizations && organizations.length > 0 && activeOrgId && onOrgSearch && (
           <HeaderMenuTemplateV2.Organizations
             sections={organizations}
             activeId={activeOrgId}
             activeName={activeOrgName}
+            onSearch={onOrgSearch}
+            baseUrl={orgBaseUrl}
           />
         )}
         {displayUser && (

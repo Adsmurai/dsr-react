@@ -136,6 +136,7 @@ export type {
   LinksSection,
   Link,
   IsSelectedFn,
+  OrganizationSearchResponse,
 } from '@adsmurai/design-system-react';
 
 // Note: Import enums from 'adsmurai-dsr-react/enums' instead

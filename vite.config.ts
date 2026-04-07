@@ -52,6 +52,18 @@ export default defineConfig({
         'class-variance-authority',
         'clsx',
         'tailwind-merge',
+        'react-table',
+        /^@tiptap\//,
+        /^@dnd-kit\//,
+        /^@mui\//,
+        /^@emotion\//,
+        /^@adsmurai\/js-client-sdk/,
+        /^notistack/,
+        /^echarts/,
+        /^marked/,
+        /^react-beautiful-dnd/,
+        /^sanitize-url/,
+        /^uuid/,
       ],
       output: {
         globals: {

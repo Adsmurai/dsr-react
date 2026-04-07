@@ -299,8 +299,8 @@ export interface SelectWithSearchProps {
   clearable?: boolean;
   /** Callback when user searches */
   onSearch?: (search: string) => void;
-  /** Whether more pages are available (for pagination) */
-  hasMorePages?: boolean;
+  /** Select variant */
+  variant?: 'outlined' | 'inline';
   /** Whether new options can be created (shows "Create X" option) */
   isCreatable?: boolean;
   /** Callback when a new value is created (requires isCreatable=true) */
@@ -334,7 +334,7 @@ const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
   disabled,
   clearable,
   onSearch,
-  hasMorePages = false,
+  variant = 'outlined',
   isCreatable = false,
   onCreateValue,
   isVirtualized,
@@ -368,7 +368,7 @@ const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
   };
 
   // Simplified search handler
-  const handleSearch = (search: string, _limit: number, _page: number) => {
+  const handleSearch = (search: string, _limit: number, _cursor?: string) => {
     if (onSearch) {
       onSearch(search);
     }
@@ -394,7 +394,7 @@ const SelectWithSearch: React.FC<SelectWithSearchProps> = ({
         isDisabled={disabled}
         isClearable={clearable}
         onSearch={handleSearch}
-        hasMorePages={hasMorePages}
+        variant={variant}
         isCreatable={isCreatable}
         onCreateValue={onCreateValue ? handleCreateValue : undefined}
         isVirtualized={isVirtualized}
