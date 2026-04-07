@@ -1,6 +1,6 @@
 {
   "name": "adsmurai-dsr-react",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Adsmurai Design System React - UI component library wrapping DSR components",
   "type": "module",
   "main": "./dist/index.cjs",
