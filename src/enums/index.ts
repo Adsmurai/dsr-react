@@ -32,10 +32,6 @@ export {
   // Alert
   AlertTypeEnum,
 
-  // Tag/Chip
-  TagColorsEnum,
-  TagVariantsEnum,
-
   // Theme
   ThemesEnum,
 

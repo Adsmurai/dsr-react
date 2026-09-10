@@ -1,5 +1,5 @@
 /**
- * @fileoverview Chip, Tag, StatusTag, Rating wrappers for DSR components
+ * @fileoverview Chip, StatusTag, Rating wrappers for DSR components
  *
  * @description
  * Wrappers that adapt DSR components to more standard React APIs.
@@ -8,78 +8,110 @@
  *
  * | Component | Interactive | Purpose | Example |
  * |-----------|-------------|---------|---------|
- * | **Chip** | Yes | Filters, selection | Active filters with x |
- * | **Tag** | Sometimes | Classification | "UX", "Marketing" |
+ * | **Chip** | Depends on `variant` | Filters, selection, classification | Active filters with x |
  * | **StatusTag** | No | Predefined state | "Active", "Error" |
- * | **Badge** | No | Counters/states | "3", "NEW" |
+ * | **Badge** | No | Counters/dot indicators | "3", "NEW" |
+ *
+ * @ai-note BREAKING (v2.0.0): DSR 15 removed `Tag`. Use `Chip` with
+ * `variant="status"` for coloured classification, or `variant="colorful"`
+ * for the decorative presets. See the migration table in CHANGELOG.md.
  *
  * @example
  * ```tsx
- * // Chip - interactive
- * <Chip label="React" selected onRemove={() => {}} />
+ * // Interactive filter with close button
+ * <Chip variant="filter" label="React" selected onRemove={() => {}} />
  *
- * // Tag - classification
- * <Tag color="success">Approved</Tag>
+ * // Non-interactive classification (replaces the old Tag)
+ * <Chip variant="status" status="success" label="Approved" />
  *
- * // StatusTag - predefined state
+ * // StatusTag - predefined state, no custom text
  * <StatusTag status="active" />
  * ```
  */
 import * as React from "react";
 import {
-  Chip as DSRChip,
-  Tag as DSRTag,
+  ChipV2 as DSRChip,
   StatusTag as DSRStatusTag,
   Rating as DSRRating,
-  TagColorsEnum,
-  TagVariantsEnum,
-  IconsEnum
+  Icon,
+  IconsEnum,
+  type ChipV2SizeType,
+  type ChipV2ColorfulPresetType,
 } from "@adsmurai/design-system-react";
 import { cn } from "@/lib/utils";
 
 // ============= CONSTANTS =============
 
 /**
- * Valid Tag color values.
+ * Valid Chip variant values. Each variant unlocks a different set of props.
+ *
+ * - `assist` (default): non-selectable action chip
+ * - `suggestion`: suggested action
+ * - `input`: user-entered value, removable
+ * - `filter`: selectable filter, removable
+ * - `status`: non-interactive, coloured by semantic status
+ * - `colorful`: non-interactive, coloured by decorative preset
  *
  * @example
  * ```tsx
- * <Tag color="success">Approved</Tag>
- * <Tag color="error">Rejected</Tag>
+ * <Chip variant="filter" label="Active" selected />
+ * <Chip variant="status" status="error" label="Failed" />
  * ```
  */
-export const TAG_COLORS = {
-  /** Success/positive - green */
-  success: 'success',
-  /** Warning - yellow/orange */
-  warning: 'warning',
-  /** Error/negative - red */
-  error: 'error',
-  /** Info - blue */
-  info: 'info',
-  /** Neutral - gray (default) */
-  neutral: 'neutral',
-  /** Primary - brand color */
-  primary: 'primary',
-  /** Processing - animated */
-  processing: 'processing',
-} as const;
+export const CHIP_VARIANTS = [
+  'assist',
+  'status',
+  'filter',
+  'suggestion',
+  'input',
+  'colorful',
+] as const;
+
+/** Valid Chip size values. */
+export const CHIP_SIZES = ['extra-small', 'small', 'medium', 'large'] as const;
 
 /**
- * Valid Tag variant values.
+ * Valid Chip status values (`variant="status"` only).
  *
  * @example
  * ```tsx
- * <Tag variant="primary">Primary style</Tag>
- * <Tag variant="secondary">Secondary style</Tag>
+ * <Chip variant="status" status="success" label="Approved" />
  * ```
  */
-export const TAG_VARIANTS = {
-  /** Primary - filled style */
-  primary: 'primary',
-  /** Secondary - lighter style */
-  secondary: 'secondary',
-} as const;
+export const CHIP_STATUSES = ['default', 'success', 'info', 'warning', 'error'] as const;
+
+/**
+ * Valid Chip colorful presets (`variant="colorful"` only).
+ *
+ * @example
+ * ```tsx
+ * <Chip variant="colorful" color="blue-light" label="Marketing" />
+ * ```
+ */
+export const CHIP_COLORFUL_PRESETS = [
+  'default',
+  'blue-light',
+  'red-light',
+  'emerald-light',
+  'purple-light',
+  'orange-light',
+  'cyan-light',
+  'yellow-light',
+  'granate-light',
+  'green-light',
+] as const;
+
+/** Type for Chip variant values */
+export type ChipVariant = (typeof CHIP_VARIANTS)[number];
+
+/** Type for Chip size values */
+export type ChipSize = (typeof CHIP_SIZES)[number];
+
+/** Type for Chip status values */
+export type ChipStatus = (typeof CHIP_STATUSES)[number];
+
+/** Type for Chip colorful preset values */
+export type ChipColorfulPreset = (typeof CHIP_COLORFUL_PRESETS)[number];
 
 /**
  * Valid StatusTag status values.
@@ -118,139 +150,176 @@ export const RATING_MAX_VALUES = {
   1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10,
 } as const;
 
-// ============= CHIP (DSR Chip) =============
+// ============= CHIP (DSR ChipV2) =============
 /**
- * @description Chip for filters and interactive selection.
+ * @description Chip for filters, selection and classification.
  *
  * @ai-note IMPORTANT: Chip uses the `label` prop for text, NOT children.
  * This is different from most other components. Do not try to use children.
  *
+ * @ai-note The available props depend on `variant`. Only `filter` and `input`
+ * accept `onRemove`; only `filter` accepts `selected`; `status` and `colorful`
+ * are NOT interactive (no `onClick`, no `disabled`).
+ *
  * @example
  * ```tsx
  * // CORRECT - use label prop
- * <Chip label="Tag name" />
- * <Chip label="Selected" selected />
+ * <Chip label="Assist chip" />
+ * <Chip variant="filter" label="Selected" selected onRemove={handleRemove} />
+ * <Chip variant="input" label="you@example.com" onRemove={handleRemove} />
+ * <Chip variant="status" status="success" label="Approved" />
+ * <Chip variant="colorful" color="purple-light" label="UX" />
  * <Chip label="With icon" icon="Star" />
- * <Chip label="Closable" onRemove={() => handleRemove()} />
  *
  * // WRONG - Chip does not use children
  * <Chip>Tag name</Chip>  // DON'T DO THIS
+ *
+ * // WRONG - status chips are not interactive
+ * <Chip variant="status" status="error" label="Failed" onClick={fn} />
  * ```
  */
-export interface ChipProps {
+interface ChipBaseProps {
   /** Chip text */
   label: string;
-  /** Whether it is selected */
-  selected?: boolean;
+  /** Chip size */
+  size?: ChipSize;
+  /** Optional leading icon (IconsEnum name) */
+  icon?: keyof typeof IconsEnum;
+  /** Leading icon as React element (priority over `icon`) */
+  leadingIcon?: React.ReactElement;
+  /** data-qa attribute for testing */
+  dataQa?: string;
+  /** Additional CSS classes for the container */
+  className?: string;
+}
+
+interface ChipInteractiveProps extends ChipBaseProps {
   /** Whether it is disabled */
   disabled?: boolean;
   /** Click handler */
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+/** Default variant - non-selectable action chip */
+export interface AssistChipProps extends ChipInteractiveProps {
+  variant?: 'assist';
+}
+
+/** Suggested action chip */
+export interface SuggestionChipProps extends ChipInteractiveProps {
+  variant: 'suggestion';
+}
+
+/** User-entered value, removable */
+export interface InputChipProps extends ChipInteractiveProps {
+  variant: 'input';
   /** Handler to close/remove - shows close icon */
-  onRemove?: () => void;
-  /** Optional icon (IconsEnum name) */
-  icon?: keyof typeof IconsEnum;
-  /** data-qa attribute for testing */
-  dataQa?: string;
-  /** Additional CSS classes for the container */
-  className?: string;
+  onRemove?: (event: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
-export const Chip: React.FC<ChipProps> = ({ 
-  label, 
-  selected, 
-  disabled, 
-  onClick, 
-  onRemove,
-  icon,
-  dataQa,
-  className 
-}) => (
-  <span className={cn("inline-flex", className)}>
-    <DSRChip
-      label={label}
-      selected={selected}
-      disabled={disabled}
-      onClick={onClick}
-      onClose={onRemove}
-      isClosable={!!onRemove}
-      icon={icon ? IconsEnum[icon] : undefined}
-      dataQa={dataQa}
-    />
-  </span>
-);
+/** Selectable filter, removable */
+export interface FilterChipProps extends ChipInteractiveProps {
+  variant: 'filter';
+  /** Whether it is selected */
+  selected?: boolean;
+  /** Handler to close/remove - shows close icon */
+  onRemove?: (event: React.MouseEvent | React.KeyboardEvent) => void;
+}
+
+/** Non-interactive, coloured by semantic status */
+export interface StatusChipProps extends ChipBaseProps {
+  variant: 'status';
+  /** Semantic status */
+  status?: ChipStatus;
+}
+
+/** Non-interactive, coloured by decorative preset */
+export interface ColorfulChipProps extends ChipBaseProps {
+  variant: 'colorful';
+  /** Decorative colour preset */
+  color?: ChipColorfulPreset;
+}
+
+export type ChipProps =
+  | AssistChipProps
+  | SuggestionChipProps
+  | InputChipProps
+  | FilterChipProps
+  | StatusChipProps
+  | ColorfulChipProps;
+
+export const Chip: React.FC<ChipProps> = (props) => {
+  const { label, size, icon, leadingIcon, dataQa, className } = props;
+
+  // Icons: priority to React element prop, then string (IconsEnum)
+  const finalLeadingIcon = (leadingIcon ??
+    (icon ? <Icon>{IconsEnum[icon]}</Icon> : undefined)) as React.ReactElement | undefined;
+
+  const shared = {
+    label,
+    size: size as ChipV2SizeType | undefined,
+    leadingIcon: finalLeadingIcon,
+    dataQa,
+  };
+
+  // Built per variant so the DSR discriminated union stays type-safe
+  const chip = (() => {
+    switch (props.variant) {
+      case 'status':
+        return <DSRChip {...shared} variant="status" status={props.status} />;
+      case 'colorful':
+        return (
+          <DSRChip
+            {...shared}
+            variant="colorful"
+            color={props.color as ChipV2ColorfulPresetType | undefined}
+          />
+        );
+      case 'filter':
+        return (
+          <DSRChip
+            {...shared}
+            variant="filter"
+            isSelected={props.selected}
+            disabled={props.disabled}
+            onClick={props.onClick}
+            onClose={props.onRemove}
+          />
+        );
+      case 'input':
+        return (
+          <DSRChip
+            {...shared}
+            variant="input"
+            disabled={props.disabled}
+            onClick={props.onClick}
+            onClose={props.onRemove}
+          />
+        );
+      case 'suggestion':
+        return (
+          <DSRChip
+            {...shared}
+            variant="suggestion"
+            disabled={props.disabled}
+            onClick={props.onClick}
+          />
+        );
+      default:
+        return (
+          <DSRChip
+            {...shared}
+            variant="assist"
+            disabled={props.disabled}
+            onClick={props.onClick}
+          />
+        );
+    }
+  })();
+
+  return <span className={cn("inline-flex", className)}>{chip}</span>;
+};
 Chip.displayName = "Chip";
-
-// ============= TAG (DSR Tag) =============
-/**
- * @description Tag for content categorization or classification.
- * DSR Tag uses `children` for text and TagColorsEnum for colors.
- *
- * @example
- * ```tsx
- * <Tag>Default</Tag>
- * <Tag color="success">Success</Tag>
- * <Tag color="error">Error</Tag>
- * <Tag variant="secondary">Secondary</Tag>
- * <Tag onDelete={() => {}}>Removable</Tag>
- * ```
- */
-export interface TagProps {
-  /** Tag content */
-  children: React.ReactNode;
-  /** Tag color */
-  color?: "success" | "warning" | "error" | "info" | "neutral" | "primary" | "processing";
-  /** Visual variant */
-  variant?: "primary" | "secondary";
-  /** Whether it is disabled */
-  disabled?: boolean;
-  /** Handler to delete - shows delete icon */
-  onDelete?: () => void;
-  /** data-qa attribute for testing */
-  dataQa?: string;
-  /** Additional CSS classes for the container */
-  className?: string;
-}
-
-/** Mapping of local colors to DSR TagColorsEnum */
-const tagColorMap: Record<string, TagColorsEnum> = {
-  success: TagColorsEnum.Success,
-  warning: TagColorsEnum.Warning,
-  error: TagColorsEnum.Error,
-  info: TagColorsEnum.Default, // DSR no tiene Info, usar Default
-  neutral: TagColorsEnum.Default,
-  primary: TagColorsEnum.Default,
-  processing: TagColorsEnum.Processing,
-};
-
-/** Mapping of local variants to DSR TagVariantsEnum */
-const tagVariantMap: Record<string, TagVariantsEnum> = {
-  primary: TagVariantsEnum.Primary,
-  secondary: TagVariantsEnum.Secondary,
-};
-
-export const Tag: React.FC<TagProps> = ({ 
-  children, 
-  color = "neutral", 
-  variant = "primary",
-  disabled,
-  onDelete,
-  dataQa,
-  className 
-}) => (
-  <span className={cn("inline-flex", className)}>
-    <DSRTag
-      color={tagColorMap[color] || TagColorsEnum.Default}
-      variant={tagVariantMap[variant] || TagVariantsEnum.Primary}
-      isDisabled={disabled}
-      onDelete={onDelete}
-      dataQa={dataQa}
-    >
-      {typeof children === "string" ? children : String(children)}
-    </DSRTag>
-  </span>
-);
-Tag.displayName = "Tag";
 
 // ============= STATUS TAG (DSR StatusTag) =============
 /**
@@ -371,4 +440,4 @@ export const Rating: React.FC<RatingProps> = ({
 Rating.displayName = "Rating";
 
 // Re-export enums for convenience
-export { TagColorsEnum, TagVariantsEnum, IconsEnum };
+export { IconsEnum };

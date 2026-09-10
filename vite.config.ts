@@ -9,7 +9,15 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
       include: ['src'],
-      exclude: ['**/*.test.ts', '**/*.test.tsx'],
+      // Mirrors tsconfig.build.json: tests and stories are not public API.
+      // Leaving stories in also broke dts generation for union-prop components
+      // (TS4023) and shipped .stories.d.ts referencing storybook types.
+      exclude: [
+        '**/*.test.ts',
+        '**/*.test.tsx',
+        '**/*.stories.ts',
+        '**/*.stories.tsx',
+      ],
     }),
   ],
   resolve: {

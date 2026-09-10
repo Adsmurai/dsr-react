@@ -42,7 +42,14 @@ export {
 
 // Display
 export { Badge, BADGE_VARIANTS, BADGE_SIZES } from './badge';
-export { Chip, Tag, StatusTag } from './chip';
+export {
+  Chip,
+  StatusTag,
+  CHIP_VARIANTS,
+  CHIP_SIZES,
+  CHIP_STATUSES,
+  CHIP_COLORFUL_PRESETS,
+} from './chip';
 export { Icon } from './icon';
 export { Typography } from './typography';
 export { Alert, ALERT_VARIANTS } from './alert';
