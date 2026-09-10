@@ -32,6 +32,7 @@ export type { RadioGroupProps, RadioGroupItemProps } from '../components/ui/radi
 export type { SliderProps } from '../components/ui/slider';
 export type { MultiTextFieldProps } from '../components/ui/multi-text-field';
 export type { RichTextEditorProps } from '../components/ui/rich-text-editor';
+export type { CalendarProps } from '../components/ui/calendar';
 export type { DatePickerProps } from '../components/ui/date-picker';
 export type { DateRangePickerProps } from '../components/ui/date-range-picker';
 export type { FileBoxProps } from '../components/ui/file-box';

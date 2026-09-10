@@ -10,6 +10,29 @@
 - Components expose a simplified, React-standard API
 - Internal DSR complexity is hidden from consumers
 
+## Required Setup
+
+Without step 1 the components render as unstyled DOM. Check it is present
+before debugging any appearance problem.
+
+```tsx
+// 1. REQUIRED - once, at the app entry (src/main.tsx)
+import 'adsmurai-dsr-react/styles';
+
+// 2. Providers, for the components that need them
+import { TooltipProvider, Toaster, SidebarProvider } from 'adsmurai-dsr-react';
+// Tooltip -> TooltipProvider · useToast() -> <Toaster /> · Sidebar -> SidebarProvider
+```
+
+No Tailwind configuration is needed for the library to look correct — its own
+utility classes ship pre-compiled. `adsmurai-dsr-react/preset` is optional and
+only affects markup **you** write; note it changes the breakpoint scale
+(DS: `xs 576 / sm 768 / md 992 / lg 1200 / xl 1440`, which are not Tailwind's
+defaults). See `THEMING.md`.
+
+`DataTable` and `DateRangePicker` need a MUI X Pro licence key or they render a
+watermark: `LicenseInfo.setLicenseKey(import.meta.env.VITE_MUI_LICENSE_KEY)`.
+
 ## Import Rules
 
 ```tsx
@@ -73,11 +96,33 @@ These components **do not support refs** (DSR limitation):
 
 | Component | Gotcha |
 |-----------|--------|
-| `Chip` | Uses `label` prop, NOT children: `<Chip label="Tag" />` |
+| `Chip` | Uses `label` prop, NOT children: `<Chip label="Text" />`. Props are variant-dependent |
 | `DataTable` | Each row object must have an `id` field |
 | `Select` | Uses `options` array, not children |
 | `Rating` | Controlled via key remount (DSR limitation) |
 | `Stepper` | `activeStep` is 0-indexed, but `onStepClick` returns 1-indexed `order`. Use `order - 1` for state. |
+| `Icon` | Omit `baseType` — the design system default (`RoundedSymbols`) is the correct variant |
+| `buttonVariants` | **Deprecated, do not use.** Produces no colour. To style an `<a>` as a button, wrap a `<Button>` |
+
+### Two toast systems — do not mix them
+
+| Use | Import | Signature |
+|-----|--------|-----------|
+| **Default** | `useToast()` + `<Toaster />` | `toast({ title, description, variant })` — object API |
+| Promise-based | `sonnerToast` + `<Sonner />` | `sonnerToast.success('…')`, `sonnerToast.promise(…)` |
+
+The root `toast` export is the **useToast** one, so `toast.success(...)` throws.
+`<Sonner />` paired with `useToast()` renders nothing, and vice versa.
+
+### Overlapping components — which to pick
+
+DS 3.0 is explicit about three of these:
+
+| For | Use | Not |
+|-----|-----|-----|
+| Labels and states | `Chip variant="status"` | `Badge` (it is a dot/counter in DS 3) |
+| Header with navigation | `SimpleLayout` / `DashboardLayout` / `CustomLayout` | hand-rolled `NavigationMenu` |
+| Dropdowns | `Select` (option `value` must be a primitive) | the Radix `Select*` composition (not exported) |
 
 ---
 
@@ -108,8 +153,7 @@ These components **do not support refs** (DSR limitation):
 | Component | Description | Key Props | Restrictions |
 |-----------|-------------|-----------|--------------|
 | `Badge` | Status indicator | `variant`, `size` | String/number children only |
-| `Chip` | Interactive tag | `label`, `selected`, `onRemove`, `icon` | Uses `label` prop, not children |
-| `Tag` | Classification | `color`, `variant`, `onDelete` | - |
+| `Chip` | Filters, selection, classification | `variant`, `label`, `size`, `icon` | Uses `label` prop, not children. Available props depend on `variant` — see below |
 | `StatusTag` | Predefined status | `status` | No custom text, only predefined statuses |
 | `Icon` | Material icon | `name`, `size`, `color`, `baseType` | `name` from `IconsEnum` or string |
 | `Typography` | Text styling | `variant`, `color`, `weight` | - |
@@ -297,10 +341,31 @@ import { ActionMenu } from 'adsmurai-dsr-react';
 import { Chip } from 'adsmurai-dsr-react';
 
 // Note: uses label prop, not children
-<Chip label="React" selected />
-<Chip label="Removable" onRemove={() => handleRemove()} />
+// Props depend on variant. Default is "assist".
+<Chip label="Assist" />
+<Chip variant="suggestion" label="Suggested" />
+<Chip variant="input" label="you@example.com" onRemove={handleRemove} />
+<Chip variant="filter" label="React" selected onRemove={handleRemove} />
+<Chip variant="status" status="success" label="Approved" />
+<Chip variant="colorful" color="purple-light" label="UX" />
 <Chip label="With Icon" icon="Star" />
+
+// WRONG - status/colorful are not interactive
+<Chip variant="status" status="error" label="Failed" onClick={fn} />
+// WRONG - selected/onRemove are not available on every variant
+<Chip label="React" selected />
 ```
+
+**Which variant:**
+
+| Variant | Interactive | `selected` | `onRemove` | Colour prop |
+|---------|-------------|------------|------------|-------------|
+| `assist` (default) | Yes | No | No | - |
+| `suggestion` | Yes | No | No | - |
+| `input` | Yes | No | Yes | - |
+| `filter` | Yes | Yes | Yes | - |
+| `status` | No | No | No | `status` (5 semantic) |
+| `colorful` | No | No | No | `color` (10 presets) |
 
 ### DataTable
 ```tsx
@@ -499,8 +564,9 @@ Import from `adsmurai-dsr-react/enums`:
 | `IconsEnum` | Material Icons keys | `Icon`, `Button` (startIcon/endIcon), `Input` (leadingIcon/trailingIcon) |
 | `ButtonVariantEnum` | Filled, Outlined, Standard, Tonal, Error, ErrorOutlined, Brand | Internal mapping |
 | `BadgeColorEnum` | Neutral, Success, Warning, Info, Danger | Internal mapping |
-| `TagColorsEnum` | Success, Warning, Error, Processing, Default | `Tag` color prop |
-| `TagVariantsEnum` | Primary, Secondary | `Tag` variant prop |
+
+> `TagColorsEnum` and `TagVariantsEnum` were removed in 2.0.0 (DSR 15 deleted them).
+> Use the `CHIP_STATUSES` / `CHIP_COLORFUL_PRESETS` constants instead.
 
 ---
 

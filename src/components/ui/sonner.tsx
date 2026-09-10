@@ -2,113 +2,44 @@
  * @fileoverview Sonner toast notification component
  *
  * @description
- * A modern toast notification system using the Sonner library.
- * Provides a simpler API than the standard Toaster component with
- * automatic theme support, stacking, and rich toast types.
- * Alternative to the useToast/Toaster system.
+ * Toast system based on the Sonner library, exported as `Sonner` (the name
+ * `Toaster` belongs to the useToast-based system in toaster.tsx). Its imperative
+ * API is exported as `sonnerToast` for the same reason: the root `toast` export
+ * is the useToast one, which has a different, object-based signature.
  *
- * ## Toast Types
- *
- * | Type | Description |
- * |------|-------------|
- * | `toast()` | Default notification |
- * | `toast.success()` | Success message with check icon |
- * | `toast.error()` | Error message with X icon |
- * | `toast.warning()` | Warning message |
- * | `toast.info()` | Informational message |
- * | `toast.loading()` | Loading state with spinner |
- * | `toast.promise()` | Async promise with loading/success/error states |
+ * @ai-note There are two toast systems and they are NOT interchangeable.
+ * Prefer `useToast()` + `<Toaster />` — that is the default. Only reach for
+ * `Sonner` + `sonnerToast` when you specifically want Sonner's promise-based
+ * API. Mixing them (e.g. `<Sonner />` with `useToast()`) renders nothing.
  *
  * @when_to_use
- * - Modern toast notifications with minimal setup
- * - Promise-based async feedback
+ * - Promise-based async feedback (`sonnerToast.promise`)
  * - Toast stacking and grouping
- * - When you prefer Sonner's API over useToast
  *
  * @when_not_to_use
- * - If already using useToast/Toaster system
- * - For inline alerts -> use Alert component
- * - For blocking confirmations -> use AlertDialog
+ * - Anything else -> use `useToast()` + `<Toaster />`
+ * - Inline alerts -> use `Alert`
+ * - Blocking confirmations -> use `AlertDialog`
  *
  * @example
  * ```tsx
- * import { Toaster, toast } from 'adsmurai-dsr-react';
+ * import { Sonner, sonnerToast } from 'adsmurai-dsr-react';
  *
- * // Add Toaster to your app root
- * export default function RootLayout({ children }) {
- *   return (
- *     <html>
- *       <body>
- *         {children}
- *         <Toaster />
- *       </body>
- *     </html>
- *   );
- * }
+ * // Mount once at the app root
+ * <Sonner />
  *
- * // Basic toasts
- * function ToastDemo() {
- *   return (
- *     <div className="flex gap-2">
- *       <Button onClick={() => toast('Default notification')}>
- *         Default
- *       </Button>
- *       <Button onClick={() => toast.success('Operation completed!')}>
- *         Success
- *       </Button>
- *       <Button onClick={() => toast.error('Something went wrong')}>
- *         Error
- *       </Button>
- *       <Button onClick={() => toast.warning('Please review')}>
- *         Warning
- *       </Button>
- *       <Button onClick={() => toast.info('New update available')}>
- *         Info
- *       </Button>
- *     </div>
- *   );
- * }
- *
- * // Toast with description
- * toast('Event created', {
- *   description: 'Your event has been scheduled for tomorrow.',
- * });
- *
- * // Toast with action
- * toast('File deleted', {
- *   action: {
- *     label: 'Undo',
- *     onClick: () => restoreFile(),
- *   },
- * });
- *
- * // Promise toast (loading -> success/error)
- * toast.promise(saveData(), {
+ * sonnerToast('Event created', { description: 'Scheduled for tomorrow.' });
+ * sonnerToast.success('Operation completed');
+ * sonnerToast.error('Something went wrong');
+ * sonnerToast.promise(saveData(), {
  *   loading: 'Saving...',
- *   success: 'Data saved successfully!',
- *   error: 'Failed to save data',
+ *   success: 'Data saved',
+ *   error: 'Failed to save',
  * });
  *
- * // Async function example
- * async function handleSubmit() {
- *   toast.promise(
- *     fetch('/api/submit', { method: 'POST' }),
- *     {
- *       loading: 'Submitting form...',
- *       success: 'Form submitted!',
- *       error: 'Submission failed',
- *     }
- *   );
- * }
- *
- * // Custom duration
- * toast('Quick notification', {
- *   duration: 2000, // 2 seconds
- * });
- *
- * // Dismissible toast
- * const toastId = toast('Processing...');
- * // Later: toast.dismiss(toastId);
+ * // WRONG - the root `toast` is the useToast API, it has no .success()
+ * import { toast } from 'adsmurai-dsr-react';
+ * toast.success('nope');
  * ```
  */
 import { useTheme } from "next-themes";
@@ -137,4 +68,4 @@ const Toaster = ({ ...props }: ToasterProps) => {
   );
 };
 
-export { Toaster, toast };
+export { Toaster, toast as sonnerToast };

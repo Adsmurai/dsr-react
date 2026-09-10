@@ -132,7 +132,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     if (process.env.NODE_ENV === 'development' && typeof children !== 'string' && children) {
       console.warn(
         '[Alert] Complex children (JSX) detected. ' +
-        'For structured content, use AlertTitle and AlertDescription components. ' +
+        'For structured content, use AlertTitle and AlertDescription: ' +
+        "import { Alert, AlertTitle, AlertDescription } from 'adsmurai-dsr-react'. " +
         'Example: <Alert><AlertTitle>Title</AlertTitle><AlertDescription>Content</AlertDescription></Alert>'
       );
     }
