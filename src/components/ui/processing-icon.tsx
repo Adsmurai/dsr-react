@@ -15,6 +15,7 @@
  * @see Use Skeleton for content placeholders
  */
 import { ProcessingIcon as DSRProcessingIcon } from '@adsmurai/design-system-react';
+import { cn } from '@/lib/utils';
 
 /**
  * Available spinner line densities for ProcessingIcon.
@@ -48,13 +49,18 @@ export function ProcessingIcon({
   width = 24,
   density = 'medium',
   dataQa,
+  className,
 }: ProcessingIconProps) {
+  // DSR ProcessingIcon takes no className, so it lands on a wrapper. It was
+  // declared in the props and not even destructured, so it did nothing at all.
   return (
-    <DSRProcessingIcon
-      width={width}
-      spinnerLinesDensity={densityMap[density]}
-      dataQa={dataQa}
-    />
+    <span className={cn('inline-flex', className)}>
+      <DSRProcessingIcon
+        width={width}
+        spinnerLinesDensity={densityMap[density]}
+        dataQa={dataQa}
+      />
+    </span>
   );
 }
 
