@@ -37,7 +37,12 @@
         "default": "./dist/types.cjs"
       }
     },
-    "./styles": "./dist/styles.css"
+    "./styles": "./dist/styles.css",
+    "./theme.css": "./dist/theme.css",
+    "./preset": {
+      "import": "./dist/preset.js",
+      "require": "./dist/preset.cjs"
+    }
   },
   "files": [
     "dist"
@@ -47,7 +52,7 @@
   ],
   "scripts": {
     "dev": "vite build --watch",
-    "build": "tsc -p tsconfig.build.json && vite build",
+    "build": "npm run tokens && tsc -p tsconfig.build.json && vite build && npm run styles",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
@@ -57,7 +62,9 @@
     "publish:snapshot": "npm run build && dotenv -- npm publish --tag snapshot",
     "publish:release": "dotenv -- npm publish",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "tokens": "node scripts/generate-tokens.mjs",
+    "styles": "node scripts/compose-styles.mjs"
   },
   "peerDependencies": {
     "react": ">=18.0.0 <19.0.0",
