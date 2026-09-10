@@ -17,7 +17,7 @@
  * @example
  * ```tsx
  * // Basic
- * <Textarea value={text} onChange={(e) => setText(e.target.value)} placeholder="Write here..." />
+ * <Textarea label="Notes" value={text} onChange={(e) => setText(e.target.value)} />
  *
  * // With character counter
  * <Textarea label="Description" withCounter maxCounter={500} />
@@ -31,7 +31,10 @@ import { InputField } from "@adsmurai/design-system-react";
 
 import { cn } from "@/lib/utils";
 
-export interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'onChange'> {
+export interface TextareaProps
+  // `placeholder` is omitted deliberately: DSR InputField has no such prop, so
+  // it was accepted by the types and silently discarded. Use `label`.
+  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'onChange' | 'placeholder'> {
   /** Field label */
   label?: string;
   /**
@@ -67,7 +70,6 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     className,
     value,
     onChange,
-    placeholder,
     disabled,
     label,
     helper,
@@ -81,6 +83,11 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     minHeight,
     ...props
   }, ref) => {
+    // DSR InputField exposes `inputRef`, not `ref`. Without this adapter the
+    // declared forwardRef never attached to anything.
+    const innerRef = React.useRef<HTMLTextAreaElement>(null);
+    React.useImperativeHandle(ref, () => innerRef.current as HTMLTextAreaElement, []);
+
     // We adapt the DSR onChange to the React standard
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       if (onChange) {
@@ -105,12 +112,20 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     }
 
     return (
+      // Remaining props (id, data-*, aria-*, tabIndex…) land here. The props
+      // type extends React.TextareaHTMLAttributes, so it promises them; DSR
+      // InputField accepts none, and `...props` was never spread at all. The
+      // cast is deliberate: these are textarea-typed attributes going onto the
+      // wrapper, which is the only element we control. Narrowing the props type
+      // to what is really honoured is the proper fix (see CHANGELOG, Fase 5).
       <div
         className={cn("w-full [&_textarea]:min-h-[var(--textarea-min-height)]", className)}
         style={heightStyle}
+        {...(props as unknown as React.HTMLAttributes<HTMLDivElement>)}
       >
         <InputField
           type="textArea"
+          inputRef={innerRef}
           value={value as string}
           onChange={handleChange}
           label={label}

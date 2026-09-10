@@ -106,16 +106,38 @@ describe('Button', () => {
       expect(screen.getByRole('button')).toHaveAttribute('type', 'submit');
     });
 
-    it('applies fullWidth class', () => {
+    // fullWidth and className land on the layout wrapper, not on the DSR
+    // button: ButtonV2 applies a consumer className *after* its own computed
+    // classes, so forwarding it there would erase DSR's styling. Asserted via
+    // the wrapper on purpose — see src/test/contract for the general rule.
+    it('applies fullWidth to the layout wrapper', () => {
       const { container } = render(<Button fullWidth>Full Width</Button>);
-      const wrapper = container.firstChild;
-      expect(wrapper).toHaveClass('w-full');
+      expect(container.firstChild).toHaveClass('w-full');
     });
 
-    it('merges className', () => {
+    it('merges className onto the layout wrapper', () => {
       const { container } = render(<Button className="custom-class">Test</Button>);
-      const wrapper = container.firstChild;
-      expect(wrapper).toHaveClass('custom-class');
+      expect(container.firstChild).toHaveClass('custom-class');
+    });
+
+    it('forwards arbitrary HTML attributes to the button itself', () => {
+      // ButtonProps extends ButtonHTMLAttributes, so this is a promise the
+      // component has to keep. It used to read only onClick and type.
+      render(
+        <Button id="save-btn" aria-label="Save changes" data-testid="save">
+          Save
+        </Button>,
+      );
+      const btn = screen.getByRole('button');
+      expect(btn).toHaveAttribute('id', 'save-btn');
+      expect(btn).toHaveAttribute('aria-label', 'Save changes');
+      expect(btn).toHaveAttribute('data-testid', 'save');
+    });
+
+    it('renders interpolated children instead of an empty label', () => {
+      const count = 3;
+      render(<Button>Save {count}</Button>);
+      expect(screen.getByRole('button')).toHaveTextContent('Save 3');
     });
   });
 
@@ -164,7 +186,7 @@ describe('Button', () => {
       );
 
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('[Button] Complex children')
+        expect.stringContaining('JSX children were flattened to text')
       );
 
       consoleSpy.mockRestore();

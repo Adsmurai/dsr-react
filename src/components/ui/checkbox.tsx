@@ -45,6 +45,7 @@ import * as React from "react";
 import { CheckBox as DSRCheckBox } from "@adsmurai/design-system-react";
 
 import { cn } from "@/lib/utils";
+import { toText } from "@/lib/to-text";
 
 export interface CheckboxProps {
   /** Checkbox state */
@@ -106,7 +107,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
         name={name}
         dataQa={dataQa}
       >
-        {children ? String(children) : undefined}
+        {toText(children)}
       </DSRCheckBox>
     </div>
   );
