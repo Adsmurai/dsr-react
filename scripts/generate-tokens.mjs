@@ -216,14 +216,24 @@ function buildThemeCss(ds) {
  * Do not edit by hand — run \`npm run tokens\`.
  *
  * These are defaults, not overrides. The whole block sits in a native
- * \`@layer base\`, which ranks BELOW unlayered rules, so an app that already
- * defines its own \`:root\` theme (any shadcn/Lovable project) keeps winning
- * with no configuration. Apps without one get the Adsmurai palette.
+ * \`@layer dsr-tokens\`, which ranks BELOW unlayered rules, so an app that
+ * already defines its own \`:root\` theme (any shadcn/Lovable project) keeps
+ * winning with no configuration. Apps without one get the Adsmurai palette.
+ *
+ * The layer NAME is load-bearing. It used to be \`@layer base\`, which is also
+ * a Tailwind directive, and Tailwind's PostCSS plugin throws on any file
+ * carrying it without a matching \`@tailwind base\`. Consumers import
+ * \`adsmurai-dsr-react/styles\` from JS, so Vite hands that file to PostCSS on
+ * its own — and the build died for every Tailwind 3 consumer. Tailwind only
+ * claims \`base\`, \`components\` and \`utilities\`, so a dedicated name passes
+ * through untouched AND stays a real native layer. Importing the stylesheet
+ * into a \`@tailwind base\` file instead would "work", but Tailwind flattens
+ * the layer, and then the defaults only lose to the app by source order.
  *
  * Values are bare HSL channels because that is what Tailwind's
  * \`hsl(var(--token))\` convention and sidebar.tsx both expect.
  */
-@layer base {
+@layer dsr-tokens {
   :root {
 ${lines.join('\n')}
     --radius: ${ds['radius-8']}; /* $radius-8 — DS: 8px is the step for containers, cards and dropdowns */

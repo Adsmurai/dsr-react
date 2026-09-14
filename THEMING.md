@@ -19,7 +19,7 @@ Three layers, in this order, assembled at build time:
 | Layer | Size | What it is |
 |---|---|---|
 | 1. Design system CSS | ~296 kB | The 274 `.e-*` classes the DSR components render with |
-| 2. Token defaults | ~2.5 kB | The shadcn-style custom properties, in a native `@layer base` |
+| 2. Token defaults | ~2.5 kB | The shadcn-style custom properties, in a native `@layer dsr-tokens` |
 | 3. Component utilities | ~54 kB | The 391 Tailwind classes this library's own components use |
 
 Layer 3 is pre-compiled deliberately. The components hardcode Tailwind class
@@ -31,7 +31,7 @@ compiles its own classes instead, and you need no Tailwind setup at all.
 
 ## Overriding the tokens
 
-Layer 2 sits inside a native `@layer base`. Native layers rank *below* unlayered
+Layer 2 sits inside a native `@layer dsr-tokens`. Native layers rank *below* unlayered
 rules, so anything you declare normally wins — no `!important`, no config:
 
 ```css
@@ -44,6 +44,25 @@ rules, so anything you declare normally wins — no `!important`, no config:
 
 Values are bare HSL channels (`249.6 68.2% 53.1%`), not colour functions,
 because the utilities resolve them through `hsl(var(--token))`.
+
+### Why the layer is not called `base`
+
+`base` is also a Tailwind directive name. Tailwind's PostCSS plugin throws
+
+```
+`@layer base` is used but no matching `@tailwind base` directive is present
+```
+
+on any stylesheet carrying it without a matching `@tailwind base` — and since
+you import `adsmurai-dsr-react/styles` from JS, your bundler hands that file to
+PostCSS on its own, with no `@tailwind` directive in sight. Tailwind only claims
+`base`, `components` and `utilities`, so the dedicated name passes through
+untouched and stays a real native layer.
+
+Do **not** "fix" a build error by `@import`-ing the stylesheet into a file that
+has `@tailwind base`. That compiles, but Tailwind flattens the layer, and the
+defaults stop being layered — they then only lose to your theme by source
+order, which breaks the moment someone reorders the imports.
 
 If your app already has a shadcn theme block, you do not have to do anything:
 yours already wins.

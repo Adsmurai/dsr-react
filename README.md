@@ -82,7 +82,7 @@ Only `md: 768px` overlaps, and it is shifted: DS `sm` equals Tailwind's default
 behave.
 
 `adsmurai-dsr-react/theme.css` exposes the token custom properties on their own.
-They sit in a native `@layer base`, so if your app already defines its own
+They sit in a native `@layer dsr-tokens`, so if your app already defines its own
 `:root` theme, yours wins with no configuration.
 
 ## Usage

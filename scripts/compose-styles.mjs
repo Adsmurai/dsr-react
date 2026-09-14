@@ -5,7 +5,7 @@
  *
  *   1. DSR's own CSS (274 `.e-*` classes), emitted by the vite build because
  *      DSR's ESM entry imports it.
- *   2. The shadcn token defaults, wrapped in a native `@layer base` so an app
+ *   2. The shadcn token defaults, wrapped in a native `@layer dsr-tokens` so an app
  *      with its own `:root` theme keeps winning.
  *   3. The Tailwind utilities this library's components actually use.
  *
