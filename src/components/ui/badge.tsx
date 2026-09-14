@@ -51,6 +51,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { Badge as DSRBadge, BadgeColorEnum } from "@adsmurai/design-system-react";
 
 import { cn } from "@/lib/utils";
+import { toText } from "@/lib/to-text";
 
 const badgeVariants = cva("", {
   variants: {
@@ -166,7 +167,9 @@ function Badge({
   const dsrColor = variantMap[variant || "default"];
   const dsrSize = sizeMap[size] || "medium";
 
-  const content = String(children);
+  // DSR Badge takes a string. `String(children)` rendered the literal text
+  // "undefined" for `<Badge />`, and "[object Object]" for JSX.
+  const content = toText(children);
 
   return (
     <div className={cn("inline-flex", className)} {...props}>
@@ -175,7 +178,7 @@ function Badge({
         size={dsrSize}
         dataQa={dataQa}
       >
-        {content}
+        {content ?? ''}
       </DSRBadge>
     </div>
   );

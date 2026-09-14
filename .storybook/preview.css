@@ -1,0 +1,19 @@
+/**
+ * The style contract a consumer has to reproduce, in the same order:
+ *
+ *   1. DSR's own CSS (the 274 `.e-*` classes) — reaches us automatically here
+ *      because DSR's ESM entry imports `./styles/base.css`. A consumer has to
+ *      write `import 'adsmurai-dsr-react/styles'` explicitly, since our
+ *      bundle externalises that CSS instead of importing it.
+ *   2. The shadcn token defaults (`@layer base { :root { … } }`).
+ *   3. Tailwind, which resolves `bg-background`, `ring-ring`, … against them.
+ *
+ * Before this file existed, Storybook loaded no CSS at all, so neither the
+ * DSR wrappers nor the shadcn components had ever been rendered with their
+ * real styles.
+ */
+@import '../src/styles/theme.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

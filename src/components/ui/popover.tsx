@@ -143,10 +143,9 @@ export const Popover: React.FC<PopoverProps> = ({
 
 interface PopoverTriggerProps {
   children: React.ReactNode;
-  asChild?: boolean;
 }
 
-export const PopoverTrigger: React.FC<PopoverTriggerProps> = ({ children, asChild }) => {
+export const PopoverTrigger: React.FC<PopoverTriggerProps> = ({ children }) => {
   const { open, setOpen, triggerRef, setTriggerElement } = usePopoverContext();
   
   React.useEffect(() => {

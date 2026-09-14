@@ -166,6 +166,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     name,
     ...props
   }, ref) => {
+    // DSR InputField does not take a `ref`; it exposes `inputRef` instead.
+    // Adapt it so the forwarded ref reaches the real <input> — before this,
+    // `forwardRef` was declared and the ref never attached to anything, so
+    // `inputRef.current` stayed null forever and focus management silently
+    // did nothing.
+    const innerRef = React.useRef<HTMLInputElement>(null);
+    React.useImperativeHandle(ref, () => innerRef.current as HTMLInputElement, []);
+
     // DSR InputField onChange receives ChangeEvent
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       if (onChange) {
@@ -202,8 +210,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const displayHelper = error && errorMessage ? errorMessage : helperText;
 
     return (
-      <div className={cn("w-full", className)}>
+      // Remaining props (id, data-*, aria-*, style, tabIndex…) land here.
+      // InputProps extends React.ComponentProps<"input">, so it promises them;
+      // DSR InputField accepts none, and until now they were captured in
+      // `...props` and never spread anywhere at all.
+      <div className={cn("w-full", className)} {...props}>
         <InputField
+          inputRef={innerRef}
+          name={name}
           value={value as string || ""}
           onChange={handleChange}
           label={label || placeholder || ""}

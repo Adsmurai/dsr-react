@@ -7,6 +7,15 @@ Este archivo rastrea el progreso de mejora de componentes siguiendo el patrón c
 
 **Total: 90 componentes**
 
+> **Aviso (v2.0.0).** Hasta la 2.0.0 este documento marcaba ✅ componentes cuyas
+> constantes existían en su fichero pero **nunca se re-exportaban en el barrel**,
+> así que eran inalcanzables desde `adsmurai-dsr-react`. Eran 32 constantes y 4
+> componentes (`Rating`, `AlertTitle`, `AlertDescription`, `PopoverAnchor`).
+> Ya están todas en el API público, y `src/test/public-api.test.ts` falla el
+> build si vuelve a pasar: cada nombre no exportado necesita una entrada en
+> `KNOWN_PRIVATE` con su razón. **"✅" aquí ya no significa "hecho" por sí solo —
+> lo que manda es ese test.**
+
 ---
 
 ## Leyenda
@@ -39,7 +48,7 @@ Este archivo rastrea el progreso de mejora de componentes siguiendo el patrón c
 | IconButton | ICON_BUTTON_VARIANTS (5), ICON_BUTTON_SIZES (4) | ✅ |
 | Typography | TYPOGRAPHY_VARIANTS (13), TYPOGRAPHY_WEIGHTS (4), TYPOGRAPHY_INTENSITIES (4), TYPOGRAPHY_COLORS (5), TYPOGRAPHY_ALIGNMENTS (6) | ✅ |
 | Alert | ALERT_VARIANTS (5) | ✅ |
-| Chip/Tag | TAG_COLORS (7), TAG_VARIANTS (2), STATUS_TAG_STATUSES (9), RATING_MAX_VALUES (10) | ✅ |
+| Chip | CHIP_VARIANTS (6), CHIP_SIZES (4), CHIP_STATUSES (5), CHIP_COLORFUL_PRESETS (10), STATUS_TAG_STATUSES (9), RATING_MAX_VALUES (10) | ✅ |
 | Progress | PROGRESS_VARIANTS (5), PROGRESS_SIZES (3) | ✅ |
 | Skeleton | SKELETON_VARIANTS (6), SKELETON_ANIMATIONS (3) | ✅ |
 | Textarea | N/A - no variants/sizes | ➖ |

@@ -1,37 +1,68 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
-import { Chip, Tag, StatusTag, Rating } from "./chip";
+import { useState, type ComponentType } from "react";
+import { Chip, StatusTag, Rating, type AssistChipProps } from "./chip";
 
-const meta: Meta<typeof Chip> = {
+// Chip props are a discriminated union keyed by `variant`. Storybook controls
+// are typed against the default `assist` variant (hence the cast); the other
+// variants are shown through render-only stories.
+const meta: Meta<AssistChipProps> = {
   title: "DSR Components/Chip",
-  component: Chip,
+  component: Chip as ComponentType<AssistChipProps>,
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
+  },
+  args: {
+    label: "Chip Label",
   },
   argTypes: {
     label: {
       control: "text",
       description: "Chip text (required)",
     },
-    selected: {
-      control: "boolean",
-      description: "Selected state",
+    size: {
+      control: "select",
+      options: ["extra-small", "small", "medium", "large"],
+      description: "Chip size",
     },
     disabled: {
       control: "boolean",
-      description: "Disabled state",
+      description: "Disabled state (interactive variants only)",
     },
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<AssistChipProps>;
 
 // ============= CHIP STORIES =============
 
-export const Default: Story = {
-  render: () => <Chip label="Chip Label" />,
+export const Default: Story = {};
+
+export const Variants: Story = {
+  name: "All Variants",
+  render: () => (
+    <div className="flex gap-2 flex-wrap">
+      <Chip label="Assist" />
+      <Chip variant="suggestion" label="Suggestion" />
+      <Chip variant="input" label="Input" onRemove={() => {}} />
+      <Chip variant="filter" label="Filter" selected />
+      <Chip variant="status" status="success" label="Status" />
+      <Chip variant="colorful" color="purple-light" label="Colorful" />
+    </div>
+  ),
+};
+
+export const Sizes: Story = {
+  name: "Sizes",
+  render: () => (
+    <div className="flex gap-2 items-center flex-wrap">
+      <Chip size="extra-small" label="Extra small" />
+      <Chip size="small" label="Small" />
+      <Chip size="medium" label="Medium" />
+      <Chip size="large" label="Large" />
+    </div>
+  ),
 };
 
 export const ChipStates: Story = {
@@ -39,9 +70,9 @@ export const ChipStates: Story = {
   render: () => (
     <div className="flex gap-2 flex-wrap">
       <Chip label="Default" />
-      <Chip label="Selected" selected />
       <Chip label="Disabled" disabled />
-      <Chip label="Selected Disabled" selected disabled />
+      <Chip variant="filter" label="Selected" selected />
+      <Chip variant="filter" label="Selected Disabled" selected disabled />
     </div>
   ),
 };
@@ -72,6 +103,7 @@ export const ChipRemovable: Story = {
           {chips.map((chip) => (
             <Chip
               key={chip}
+              variant="input"
               label={chip}
               onRemove={() => removeChip(chip)}
             />
@@ -115,6 +147,7 @@ export const ChipFilter: Story = {
           {filters.map((filter) => (
             <Chip
               key={filter.id}
+              variant="filter"
               label={filter.label}
               selected={selected.includes(filter.id)}
               onClick={() => toggleFilter(filter.id)}
@@ -127,70 +160,39 @@ export const ChipFilter: Story = {
   },
 };
 
-// ============= TAG STORIES =============
+// ============= STATUS CHIP STORIES =============
+// These replace the old Tag stories: DSR 15 removed `Tag`, so semantic
+// classification is now `variant="status"`.
 
-export const TagDefault: Story = {
-  name: "Tag - Default",
-  render: () => <Tag>Default Tag</Tag>,
-};
-
-export const TagColors: Story = {
-  name: "Tag - All Colors",
+export const StatusChips: Story = {
+  name: "Status Chips (replaces Tag)",
   render: () => (
     <div className="flex gap-2 flex-wrap">
-      <Tag color="neutral">Neutral</Tag>
-      <Tag color="primary">Primary</Tag>
-      <Tag color="success">Success</Tag>
-      <Tag color="warning">Warning</Tag>
-      <Tag color="error">Error</Tag>
-      <Tag color="info">Info</Tag>
-      <Tag color="processing">Processing</Tag>
+      <Chip variant="status" status="default" label="Default" />
+      <Chip variant="status" status="success" label="Success" />
+      <Chip variant="status" status="info" label="Info" />
+      <Chip variant="status" status="warning" label="Warning" />
+      <Chip variant="status" status="error" label="Error" />
     </div>
   ),
 };
 
-export const TagVariants: Story = {
-  name: "Tag - Variants",
+export const ColorfulChips: Story = {
+  name: "Colorful Chips",
   render: () => (
-    <div className="space-y-4">
-      <div className="flex gap-2">
-        <Tag variant="primary" color="success">Primary Success</Tag>
-        <Tag variant="primary" color="warning">Primary Warning</Tag>
-        <Tag variant="primary" color="error">Primary Error</Tag>
-      </div>
-      <div className="flex gap-2">
-        <Tag variant="secondary" color="success">Secondary Success</Tag>
-        <Tag variant="secondary" color="warning">Secondary Warning</Tag>
-        <Tag variant="secondary" color="error">Secondary Error</Tag>
-      </div>
+    <div className="flex gap-2 flex-wrap max-w-md">
+      <Chip variant="colorful" color="default" label="Default" />
+      <Chip variant="colorful" color="blue-light" label="Blue" />
+      <Chip variant="colorful" color="red-light" label="Red" />
+      <Chip variant="colorful" color="emerald-light" label="Emerald" />
+      <Chip variant="colorful" color="purple-light" label="Purple" />
+      <Chip variant="colorful" color="orange-light" label="Orange" />
+      <Chip variant="colorful" color="cyan-light" label="Cyan" />
+      <Chip variant="colorful" color="yellow-light" label="Yellow" />
+      <Chip variant="colorful" color="granate-light" label="Granate" />
+      <Chip variant="colorful" color="green-light" label="Green" />
     </div>
   ),
-};
-
-export const TagDeletable: Story = {
-  name: "Tag - Deletable",
-  render: function Render() {
-    const [tags, setTags] = useState(["UX", "Marketing", "Development"]);
-
-    return (
-      <div className="space-y-4">
-        <div className="flex gap-2 flex-wrap">
-          {tags.map((tag) => (
-            <Tag
-              key={tag}
-              color="primary"
-              onDelete={() => setTags((prev) => prev.filter((t) => t !== tag))}
-            >
-              {tag}
-            </Tag>
-          ))}
-        </div>
-        {tags.length === 0 && (
-          <p className="text-gray-500 text-sm">No tags remaining</p>
-        )}
-      </div>
-    );
-  },
 };
 
 // ============= STATUS TAG STORIES =============
@@ -258,27 +260,34 @@ export const RatingMaxStars: Story = {
 
 // ============= COMPARISON =============
 
-export const ChipVsTagComparison: Story = {
-  name: "Chip vs Tag Comparison",
+export const WhichVariantComparison: Story = {
+  name: "Which variant to use",
   render: () => (
     <div className="space-y-6 w-96">
       <div>
-        <h3 className="font-medium mb-2">Chip (Interactive filters)</h3>
+        <h3 className="font-medium mb-2">Interactive filters</h3>
         <div className="flex gap-2">
-          <Chip label="Filter 1" selected />
-          <Chip label="Filter 2" onRemove={() => {}} />
+          <Chip variant="filter" label="Filter 1" selected />
+          <Chip variant="filter" label="Filter 2" onRemove={() => {}} />
         </div>
       </div>
       <div>
-        <h3 className="font-medium mb-2">Tag (Classification)</h3>
+        <h3 className="font-medium mb-2">Classification (semantic)</h3>
         <div className="flex gap-2">
-          <Tag color="success">Approved</Tag>
-          <Tag color="warning">Review</Tag>
-          <Tag color="error">Rejected</Tag>
+          <Chip variant="status" status="success" label="Approved" />
+          <Chip variant="status" status="warning" label="Review" />
+          <Chip variant="status" status="error" label="Rejected" />
         </div>
       </div>
       <div>
-        <h3 className="font-medium mb-2">StatusTag (Predefined states)</h3>
+        <h3 className="font-medium mb-2">Classification (decorative)</h3>
+        <div className="flex gap-2">
+          <Chip variant="colorful" color="purple-light" label="UX" />
+          <Chip variant="colorful" color="blue-light" label="Marketing" />
+        </div>
+      </div>
+      <div>
+        <h3 className="font-medium mb-2">StatusTag (predefined states)</h3>
         <div className="flex gap-2">
           <StatusTag status="active" />
           <StatusTag status="pending" />

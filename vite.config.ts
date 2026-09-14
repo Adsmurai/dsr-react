@@ -1,15 +1,49 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import dts from 'vite-plugin-dts';
+import { copyFileSync } from 'fs';
 import { resolve } from 'path';
+
+/**
+ * The token layer is generated (see scripts/generate-tokens.mjs) and lives in
+ * src/ so a DS bump shows up as a reviewable diff. It isn't part of the JS
+ * graph, so copy it into dist/ where the ./theme.css and ./preset exports
+ * point. `files: ["dist"]` then picks it up for the tarball.
+ */
+function copyTokenLayer(): Plugin {
+  const assets = [
+    ['src/styles/theme.css', 'dist/theme.css'],
+    ['src/tailwind/preset.js', 'dist/preset.js'],
+    ['src/tailwind/preset.cjs', 'dist/preset.cjs'],
+    ['src/tailwind/tokens.json', 'dist/tokens.json'],
+  ] as const;
+
+  return {
+    name: 'dsr-copy-token-layer',
+    closeBundle() {
+      for (const [from, to] of assets) {
+        copyFileSync(resolve(__dirname, from), resolve(__dirname, to));
+      }
+    },
+  };
+}
 
 export default defineConfig({
   plugins: [
     react(),
+    copyTokenLayer(),
     dts({
       insertTypesEntry: true,
       include: ['src'],
-      exclude: ['**/*.test.ts', '**/*.test.tsx'],
+      // Mirrors tsconfig.build.json: tests and stories are not public API.
+      // Leaving stories in also broke dts generation for union-prop components
+      // (TS4023) and shipped .stories.d.ts referencing storybook types.
+      exclude: [
+        '**/*.test.ts',
+        '**/*.test.tsx',
+        '**/*.stories.ts',
+        '**/*.stories.tsx',
+      ],
     }),
   ],
   resolve: {
@@ -71,11 +105,23 @@ export default defineConfig({
           'react-dom': 'ReactDOM',
           'react/jsx-runtime': 'jsxRuntime',
         },
+        // preserveModules stays OFF: measured against a scratch consumer, one
+        // module per file took the "import only Button" bundle from 3.53 MB to
+        // 7.19 MB, because the per-module re-export tree defeats the
+        // deduplication a single chunk gives us. See CHANGELOG, Known issues.
         preserveModules: false,
         assetFileNames: 'styles.[ext]',
       },
     },
+    // Pinned with preserveModules on purpose: DSR imports CSS from 139 of its
+    // own modules, and per-module CSS would shatter dist/styles.css and break
+    // the ./styles contract.
+    // Pinned: DSR imports CSS from 139 of its own modules, so per-module CSS
+    // would shatter dist/styles.css and break the ./styles contract.
+    cssCodeSplit: false,
     sourcemap: false,
-    minify: false,
+    // The published package is public, so shipping the internal design
+    // system's source unminified is an avoidable disclosure.
+    minify: true,
   },
 });

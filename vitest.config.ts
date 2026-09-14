@@ -9,6 +9,13 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
     include: ['src/**/*.test.{ts,tsx}'],
+    server: {
+      deps: {
+        // DSR 15 imports raw CSS from its ESM entry (lib/styles/base.css).
+        // Inlining lets Vite transform it instead of Node choking on ".css".
+        inline: ['@adsmurai/design-system-react'],
+      },
+    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

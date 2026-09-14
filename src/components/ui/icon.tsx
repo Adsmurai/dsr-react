@@ -41,8 +41,7 @@
  * // With badge
  * <Icon name="Notifications" badgeLabel="3" badgeColor="Danger" />
  *
- * // Base type (outlined vs filled)
- * <Icon name="Star" baseType="outlined" />
+ * // Base type: omit it to get the system default (RoundedSymbols)
  * <Icon name="Star" baseType="filled" />
  * ```
  */
@@ -99,9 +98,17 @@ export const ICON_COLORS = {
 /**
  * Valid Icon base type values (style).
  *
+ * @ai-note Do not pass `baseType` unless you specifically need another style.
+ * Omitting it uses the design system's own default (`RoundedSymbols`), which
+ * is the correct variant for Adsmurai products. Setting it should be a
+ * deliberate choice, not a habit.
+ *
  * @example
  * ```tsx
- * <Icon name="Star" baseType="outlined" />
+ * // Preferred: let the system pick
+ * <Icon name="Star" />
+ *
+ * // Deliberate override
  * <Icon name="Star" baseType="filled" />
  * ```
  */
@@ -112,10 +119,12 @@ export const ICON_BASE_TYPES = {
   filled: 'filled',
   /** Rounded style */
   rounded: 'rounded',
-  /** Sharp style */
-  sharp: 'sharp',
   /** Two-tone style */
   'two-tone': 'two-tone',
+  /** Material Symbols, outlined */
+  'outlined-symbols': 'outlined-symbols',
+  /** Material Symbols, rounded */
+  'rounded-symbols': 'rounded-symbols',
 } as const;
 
 export interface IconProps {
@@ -131,7 +140,7 @@ export interface IconProps {
   /** Secondary style (lighter) */
   secondary?: boolean;
   /** Base type of the icon (outlined/filled) */
-  baseType?: "outlined" | "filled" | "rounded" | "sharp" | "two-tone";
+  baseType?: "outlined" | "filled" | "rounded" | "two-tone" | "outlined-symbols" | "rounded-symbols";
   /** Whether it is loading (shows spinner) */
   loading?: boolean;
   /** Badge text (e.g.: "3", "+99") */
@@ -149,8 +158,9 @@ const baseTypeMap: Record<string, IconBaseTypeEnum> = {
   outlined: IconBaseTypeEnum.Outlined,
   filled: IconBaseTypeEnum.Filled,
   rounded: IconBaseTypeEnum.Round,
-  sharp: IconBaseTypeEnum.Sharp,
   "two-tone": IconBaseTypeEnum.TwoTone,
+  "outlined-symbols": IconBaseTypeEnum.OutlinedSymbols,
+  "rounded-symbols": IconBaseTypeEnum.RoundedSymbols,
 };
 
 /** Mapping of badgeColor string to enum */

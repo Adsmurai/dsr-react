@@ -80,7 +80,16 @@ import {
 } from "@adsmurai/design-system-react";
 
 import { cn } from "@/lib/utils";
+import { toText } from "@/lib/to-text";
 
+/**
+ * @deprecated Exists only to derive `VariantProps` for `ButtonProps`. Every
+ * variant resolves to an empty string and `Button` never applies it, so
+ * `className={buttonVariants({ variant: 'outline' })}` — the canonical
+ * shadcn idiom for styling an `<a>` as a button — yields layout classes with
+ * no colour. Use `<Button>` itself, or `BUTTON_VARIANTS` for the valid values.
+ * Will be removed in the next major.
+ */
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
@@ -186,8 +195,6 @@ const sizeMap: Record<string, "small" | "medium" | "large"> = {
 export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children">,
     VariantProps<typeof buttonVariants> {
-  /** Render as Slot if true (advanced composition) */
-  asChild?: boolean;
   /**
    * Button text content - should be plain text string for best results.
    * @ai-note For icons, use startIcon/endIcon or leadingIcon/trailingIcon props.
@@ -220,7 +227,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     className, 
     variant = "default", 
     size = "default", 
-    asChild = false, 
     children, 
     startIcon, 
     endIcon, 
@@ -232,21 +238,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     disabled,
     ...props 
   }, ref) => {
-// Dev warning for complex children
-    if (process.env.NODE_ENV === 'development' && children && typeof children !== 'string') {
-      console.warn(
-        '[Button] Complex children (JSX) detected. ' +
-        'Use children="text" with startIcon/endIcon or leadingIcon/trailingIcon. ' +
-        'Example: <Button endIcon="OpenInNew">Open</Button>'
-      );
-    }
-
     const dsrVariant = variantMap[variant || "default"];
     const dsrSize = sizeMap[size || "default"];
 
-    // Extract text from children for label (only if string)
-    const label = typeof children === "string" ? children : "";
-    
+    // DSR ButtonV2 takes a string `label`, so children have to be flattened.
+    // toText() handles the interpolated case — `<Button>Save {n}</Button>`
+    // arrives as an array, which the previous empty-string fallback turned
+    // into an invisible button — and warns in dev when JSX is passed.
+    const label = toText(children) ?? "";
+
     // Icons: priority to React component props, then string (IconsEnum)
     const finalLeadingIcon = (leadingIcon ?? (startIcon ? <Icon>{IconsEnum[startIcon]}</Icon> : undefined)) as React.ReactElement | undefined;
     const finalTrailingIcon = (trailingIcon ?? (endIcon ? <Icon>{IconsEnum[endIcon]}</Icon> : undefined)) as React.ReactElement | undefined;
@@ -254,16 +254,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <div className={cn("inline-flex", fullWidth && "w-full", className)}>
         <ButtonV2
+          // Everything the consumer passed (id, aria-*, data-*, onFocus,
+          // onKeyDown, form, tabIndex…) goes to the real <button>, which is
+          // what ButtonProps has always promised. Spread first so the explicit
+          // props below win — and note `className` is deliberately NOT in
+          // `props`: ButtonV2 applies a consumer className *after* its own,
+          // which would wipe out DSR's styling entirely.
+          {...props}
           ref={ref as React.Ref<HTMLButtonElement>}
           label={label}
           variant={dsrVariant}
           size={dsrSize}
           disabled={disabled || isLoading}
           isLoading={isLoading}
-          onClick={props.onClick}
           leadingIcon={finalLeadingIcon}
           trailingIcon={finalTrailingIcon}
-          type={props.type}
           dataQa={dataQa}
         />
       </div>

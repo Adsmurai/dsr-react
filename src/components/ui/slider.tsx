@@ -45,8 +45,6 @@ export interface SliderProps {
   min?: number;
   /** Maximum value */
   max?: number;
-  /** Increment step (note: DSR Slider does not support step directly) */
-  step?: number;
   /** Callback when value changes */
   onValueChange?: (value: number[]) => void;
   /** Whether it is disabled */
@@ -79,7 +77,6 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     value = [0], 
     min = 0, 
     max = 100, 
-    step = 1, 
     onValueChange, 
     disabled,
     marks = false,

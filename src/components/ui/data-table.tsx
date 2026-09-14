@@ -122,9 +122,8 @@ export type {
  * Available visual variants for DataTable.
  * - `primary`: Default style with primary color accents
  * - `secondary`: Alternative style with secondary colors
- * - `grid`: Grid-focused style for data-heavy displays
  */
-export const DATA_TABLE_VARIANTS = ['primary', 'secondary', 'grid'] as const;
+export const DATA_TABLE_VARIANTS = ['primary', 'secondary'] as const;
 
 /**
  * Available row height presets for DataTable.
@@ -187,7 +186,12 @@ export interface DataTableProps {
   /** Selection type */
   selectionType?: "checkbox" | "radio";
   /** Controlled selection state */
-  rowSelectionModel?: GridRowSelectionModel;
+  /**
+   * Controlled selection, as a list of row ids.
+   * @ai-note Do NOT type this as MUI's `GridRowSelectionModel`. That type became
+   * `{ type, ids: Set }` in MUI X v8, but DSR's TableV2 still takes `GridRowId[]`.
+   */
+  rowSelectionModel?: GridRowId[];
   /** Selection change callback */
   onSelectChange?: (ids: GridRowId[]) => void;
   /** Filter which rows can be selected */
@@ -518,7 +522,6 @@ const DataTable = React.forwardRef<DataTableRef, DataTableProps>(({
   const variantMap: Record<string, TableVariantEnum> = {
     primary: TableVariantEnum.Primary,
     secondary: TableVariantEnum.Secondary,
-    grid: TableVariantEnum.Grid,
   };
 
   // Map row height to enum

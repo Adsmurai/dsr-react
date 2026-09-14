@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@/test/test-utils';
 import userEvent from '@testing-library/user-event';
+import { createRef } from 'react';
 import { Input, INPUT_SIZES } from './input';
 
 describe('Input', () => {
@@ -227,9 +228,21 @@ describe('Input', () => {
       expect(input.closest('[data-qa="test-input"]')).toBeInTheDocument();
     });
 
-    it('merges className', () => {
+    // className lands on the layout wrapper: DSR InputField accepts none.
+    it('merges className onto the layout wrapper', () => {
       const { container } = render(<Input label="Test" className="custom-class" />);
       expect(container.firstChild).toHaveClass('custom-class');
+    });
+
+    it('attaches the forwarded ref to the real input', () => {
+      const ref = createRef<HTMLInputElement>();
+      render(<Input label="Test" ref={ref} />);
+      expect(ref.current).toBeInstanceOf(HTMLInputElement);
+    });
+
+    it('applies the name attribute to the input', () => {
+      render(<Input label="Test" name="email" />);
+      expect(screen.getByRole('textbox')).toHaveAttribute('name', 'email');
     });
   });
 

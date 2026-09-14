@@ -32,6 +32,7 @@ export type { RadioGroupProps, RadioGroupItemProps } from '../components/ui/radi
 export type { SliderProps } from '../components/ui/slider';
 export type { MultiTextFieldProps } from '../components/ui/multi-text-field';
 export type { RichTextEditorProps } from '../components/ui/rich-text-editor';
+export type { CalendarProps } from '../components/ui/calendar';
 export type { DatePickerProps } from '../components/ui/date-picker';
 export type { DateRangePickerProps } from '../components/ui/date-range-picker';
 export type { FileBoxProps } from '../components/ui/file-box';
@@ -40,7 +41,21 @@ export type { FileBoxProps } from '../components/ui/file-box';
 // Display
 // ============================================
 export type { BadgeProps } from '../components/ui/badge';
-export type { ChipProps, TagProps, StatusTagProps, RatingProps } from '../components/ui/chip';
+export type {
+  ChipProps,
+  AssistChipProps,
+  SuggestionChipProps,
+  InputChipProps,
+  FilterChipProps,
+  StatusChipProps,
+  ColorfulChipProps,
+  ChipVariant,
+  ChipSize,
+  ChipStatus,
+  ChipColorfulPreset,
+  StatusTagProps,
+  RatingProps,
+} from '../components/ui/chip';
 export type { IconProps } from '../components/ui/icon';
 export type { IconButtonProps } from '../components/ui/icon-button';
 export type { TypographyProps } from '../components/ui/typography';

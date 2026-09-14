@@ -51,9 +51,6 @@ export const TOOLTIP_POSITIONS = {
 
 export interface TooltipProviderProps {
   children: React.ReactNode;
-  delayDuration?: number;
-  skipDelayDuration?: number;
-  disableHoverableContent?: boolean;
 }
 
 /** Provider context for tooltips */
