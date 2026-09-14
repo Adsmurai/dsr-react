@@ -57,8 +57,19 @@ jobs:
 
       # No explicit build step: `prepublishOnly` runs the build as part of
       # `npm publish`, so the published dist/ can never be a stale local one.
+      # npm tags whatever it publishes as `latest` unless told otherwise — it
+      # does NOT infer that from a prerelease version. Without this, tagging
+      # v2.0.0-snapshot.1 would make a snapshot the default install for every
+      # consumer.
       - name: Publish
-        run: npm publish --provenance --access public
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          case "$version" in
+            *-*) tag=snapshot ;;
+            *)   tag=latest ;;
+          esac
+          echo "Publishing $version under dist-tag '$tag'"
+          npm publish --provenance --access public --tag "$tag"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
