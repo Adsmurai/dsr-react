@@ -65,7 +65,8 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
-    "publish:snapshot": "npm run build && dotenv -- npm publish --tag snapshot",
+    "prepublishOnly": "npm run build",
+    "publish:snapshot": "dotenv -- npm publish --tag snapshot",
     "publish:release": "dotenv -- npm publish",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -209,7 +210,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/adsmurai/dsr-react.git"
+    "url": "git+https://github.com/Adsmurai/dsr-react.git"
   },
   "keywords": [
     "react",
@@ -229,5 +230,9 @@
     "extends": [
       "plugin:storybook/recommended"
     ]
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Adsmurai/dsr-react/issues"
+  },
+  "homepage": "https://github.com/Adsmurai/dsr-react#readme"
 }

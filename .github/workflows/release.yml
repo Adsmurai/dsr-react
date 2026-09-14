@@ -1,0 +1,73 @@
+name: Release
+
+# Publishing is driven by the tag, so the released artefact always corresponds
+# to a specific commit:
+#
+#   npm version 2.0.0        # updates package.json and creates the v2.0.0 tag
+#   git push --follow-tags
+#
+# The job refuses to publish if the tag and package.json disagree.
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      # Required for npm provenance, which records which workflow and commit
+      # produced the published tarball.
+      id-token: write
+
+    env:
+      GITLAB_NPM_TOKEN: ${{ secrets.GITLAB_NPM_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install
+        run: npm ci --legacy-peer-deps
+
+      - name: Check the tag matches package.json
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          pkg="$(node -p "require('./package.json').version")"
+          if [ "$tag" != "$pkg" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $pkg"
+            exit 1
+          fi
+          echo "Publishing $pkg from tag $GITHUB_REF_NAME"
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test:run
+
+      # No explicit build step: `prepublishOnly` runs the build as part of
+      # `npm publish`, so the published dist/ can never be a stale local one.
+      - name: Publish
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Summary
+        run: |
+          v="$(node -p "require('./package.json').version")"
+          {
+            echo "### Published \`adsmurai-dsr-react@$v\`"
+            echo
+            echo "- https://www.npmjs.com/package/adsmurai-dsr-react/v/$v"
+            echo "- commit \`${GITHUB_SHA:0:7}\`, tag \`$GITHUB_REF_NAME\`"
+          } >> "$GITHUB_STEP_SUMMARY"

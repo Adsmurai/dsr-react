@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    env:
+      # The project .npmrc resolves the @adsmurai scope against the GitLab
+      # registry and interpolates this variable. npm fails outright if it is
+      # missing, so it is set for the whole job rather than per step.
+      GITLAB_NPM_TOKEN: ${{ secrets.GITLAB_NPM_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # --legacy-peer-deps: react-day-picker@8 declares a date-fns ^2||^3 peer
+      # while the design system requires date-fns 4. It only conflicts here,
+      # where both are direct dependencies; consumers install cleanly.
+      - name: Install
+        run: npm ci --legacy-peer-deps
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test:run
+
+      - name: Build
+        run: npm run build
+
+      # The design tokens and UI-CONTRACT.md are generated from the design
+      # system and from the built bundle, and committed so a design-system bump
+      # shows up as a reviewable diff. If the build regenerates them differently
+      # from what is committed, they have drifted — which is exactly how the
+      # previous documentation rotted.
+      - name: Check generated files are in sync
+        run: |
+          if ! git diff --exit-code -- src/styles src/tailwind UI-CONTRACT.md; then
+            echo "::error::Generated files are out of date. Run 'npm run build' and commit the result."
+            exit 1
+          fi
